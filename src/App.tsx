@@ -47,6 +47,13 @@ import { ShadesTintsTool } from './components/tools/ShadesTintsTool';
 import { ColorMixerTool } from './components/tools/ColorMixerTool';
 import { BlindnessSimulatorTool } from './components/tools/BlindnessSimulatorTool';
 import { CssExporterTool } from './components/tools/CssExporterTool';
+import { ToolGuideSection } from './components/tools/ToolGuideSection';
+import { TOOL_GUIDES } from './components/tools/toolGuidesData';
+
+// PWA Components
+import { InstallModal } from './components/pwa/InstallModal';
+import { OfflineIndicator } from './components/pwa/OfflineIndicator';
+import { UpdateBanner } from './components/pwa/UpdateBanner';
 
 // Utilities & Storage
 import {
@@ -68,6 +75,7 @@ import {
   isPaletteFavorited,
 } from './utils/storage';
 import { getColorData } from './utils/colorEngine';
+import { updateRouteSEO } from './utils/seo';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
@@ -81,6 +89,11 @@ export function App() {
 
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [devModalOpen, setDevModalOpen] = useState(false);
+
+  // Dynamic Route SEO (Document title, meta description, canonical, OG tags)
+  useEffect(() => {
+    updateRouteSEO(activeTab, selectedHex);
+  }, [activeTab, selectedHex]);
 
   // Hybrid Hash & Path SPA routing synchronization
   useEffect(() => {
@@ -630,6 +643,13 @@ export function App() {
           />
         )}
 
+        {/* Rich SEO & Educational Guide for the 10 Color Tools */}
+        {activeTab.startsWith('tool-') && TOOL_GUIDES[activeTab] && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+            <ToolGuideSection {...TOOL_GUIDES[activeTab]} onNavigate={navigateTo} />
+          </div>
+        )}
+
         {/* Legal & Information Center Views */}
         {activeTab === 'legal' && <LegalCenterView onNavigate={navigateTo} />}
         {activeTab === 'terms' && <TermsView onNavigate={navigateTo} />}
@@ -670,6 +690,11 @@ export function App() {
         onClose={() => setSearchModalOpen(false)}
         onNavigate={navigateTo}
       />
+
+      {/* PWA Lifecycle & Installation Experience */}
+      <InstallModal />
+      <OfflineIndicator />
+      <UpdateBanner />
 
       {/* Interactive Toast Notifications */}
       <ToastContainer toasts={toasts} onDismiss={dismissToast} />

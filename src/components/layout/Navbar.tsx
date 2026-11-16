@@ -18,9 +18,11 @@ import {
   Sliders,
   Eye,
   FileCode2,
+  Download,
 } from 'lucide-react';
 import { ActiveTab } from '../../types/color';
 import { ThemeMode } from '../../utils/storage';
+import { usePWA } from '../../hooks/usePWA';
 
 interface NavbarProps {
   activeTab: ActiveTab;
@@ -41,6 +43,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenSearch,
   onOpenDevModal,
 }) => {
+  const { isInstalled, setInstallModalOpen } = usePWA();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
 
@@ -210,6 +213,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Action Icons: Search, Favorites, Theme, Profile */}
         <div className="flex items-center gap-1 sm:gap-2">
+          {/* Install App Button (Desktop) */}
+          {!isInstalled && (
+            <button
+              onClick={() => setInstallModalOpen(true)}
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold transition-all cursor-pointer group"
+              aria-label="Install Chroma Studio App"
+              title="Install Chroma Studio as a standalone app"
+            >
+              <Download className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>Install App</span>
+            </button>
+          )}
+
           {/* Quick Search Button */}
           <button
             onClick={onOpenSearch}
@@ -268,6 +284,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0F1017] p-4 max-h-[85vh] overflow-y-auto space-y-3 custom-scroll shadow-xl">
+          {!isInstalled && (
+            <button
+              onClick={() => {
+                setInstallModalOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-bold shadow-md shadow-indigo-500/20 transition-all cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              <span>Install Chroma Studio App</span>
+            </button>
+          )}
+
           <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-200 dark:border-white/10">
             <button
               onClick={() => handleNavClick('explore')}
