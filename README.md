@@ -182,25 +182,15 @@ npm run preview
 
 ---
 
-## 🌐 Static Deployment
+## 🌐 Production Deployment
 
-Chroma Studio generates a completely static distribution in `dist/`. No server-side runtime, backend database, or environment variables are required.
+Chroma Studio generates a completely static, zero-runtime distribution in `dist/`.
 
-### 1. Cloudflare Pages
-- **Build command:** `npm run build`
-- **Build output directory:** `dist`
-- Cloudflare automatically respects `_redirects` and `_headers` included in the `public/` directory.
-
-### 2. GitHub Pages
-- Deploy the `dist` folder to your `gh-pages` branch.
-- The included `404.html` and relative base path ensure all client-side hash routes (`/#/explore`, `/#/palettes`) load without 404 errors.
-
-### 3. Netlify
-- Drag and drop the `dist/` directory or connect your repository with build command `npm run build` and publish directory `dist`.
-- `_redirects` ensures seamless SPA routing.
-
-### 4. Vercel
-- Deploy as a static project pointing to `dist`.
+### Automated GitHub Actions Deployment (Surge.sh)
+- **Live URL**: [https://chroma-studio.surge.sh](https://chroma-studio.surge.sh)
+- **CI/CD Workflow**: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+- **Trigger**: Every push to the `main` branch automatically builds the production bundle and deploys to Surge.sh using the official Surge CLI with the `SURGE_TOKEN` GitHub repository secret.
+- **Client-Side Routing**: SPA fallback is managed automatically by generating `200.html` during the deployment workflow.
 
 ---
 
