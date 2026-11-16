@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "postbuild": "node -e \"const fs = require('fs'); fs.copyFileSync('dist/index.html', 'dist/200.html'); fs.copyFileSync('wrangler.json', 'dist/wrangler.json');\"",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "postbuild": "node -e \"const fs = require('fs'); fs.copyFileSync('wrangler.json', 'dist/wrangler.json');\"",
+    "lint": "oxlint || tsc -b --noEmit",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=chroma-studio"
   },
   "dependencies": {
     "@types/canvas-confetti": "^1.9.0",

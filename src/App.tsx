@@ -82,17 +82,24 @@ export function App() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [devModalOpen, setDevModalOpen] = useState(false);
 
-  // Hash-based routing synchronization
+  // Hybrid Hash & Path SPA routing synchronization
   useEffect(() => {
-    const parseHash = () => {
-      const hash = window.location.hash.replace(/^#\/?/, '');
-      if (!hash) {
+    const parseRoute = () => {
+      // 1. Inspect hash first (e.g. #/about-chroma-studio or #palettes)
+      let rawRoute = window.location.hash.replace(/^#\/?/, '');
+
+      // 2. Fall back to pathname for direct navigation & page refresh (e.g. /about-chroma-studio)
+      if (!rawRoute && window.location.pathname && window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+        rawRoute = window.location.pathname.replace(/^\/+/, '');
+      }
+
+      if (!rawRoute) {
         setActiveTab('home');
         return;
       }
 
-      const parts = hash.split('/');
-      const section = parts[0];
+      const parts = rawRoute.split('/');
+      const section = parts[0].toLowerCase();
       const param = parts[1];
 
       if (section === 'color' && param) {
@@ -101,7 +108,16 @@ export function App() {
       } else if (section === 'explore') {
         setActiveTab('explore');
       } else if (section === 'tools') {
-        setActiveTab('tool-picker');
+        if (param === 'converter' || param === 'tool-converter') setActiveTab('tool-converter');
+        else if (param === 'image' || param === 'tool-image' || param === 'image-picker') setActiveTab('tool-image');
+        else if (param === 'palette' || param === 'tool-palette' || param === 'palette-generator') setActiveTab('tool-palette');
+        else if (param === 'contrast' || param === 'tool-contrast' || param === 'contrast-checker') setActiveTab('tool-contrast');
+        else if (param === 'gradient' || param === 'tool-gradient' || param === 'gradient-generator') setActiveTab('tool-gradient');
+        else if (param === 'shades' || param === 'tool-shades' || param === 'shades-tints') setActiveTab('tool-shades');
+        else if (param === 'mixer' || param === 'tool-mixer' || param === 'color-mixer') setActiveTab('tool-mixer');
+        else if (param === 'blindness' || param === 'tool-blindness' || param === 'blindness-simulator') setActiveTab('tool-blindness');
+        else if (param === 'exporter' || param === 'tool-exporter' || param === 'css-exporter') setActiveTab('tool-exporter');
+        else setActiveTab('tool-picker');
       } else if (section === 'palettes') {
         setActiveTab('palettes');
       } else if (section === 'gradients') {
@@ -109,7 +125,7 @@ export function App() {
       } else if (section === 'learn') {
         if (param) setLearnTopic(param);
         setActiveTab('learn');
-      } else if (section === 'developer') {
+      } else if (section === 'developer' || section === 'about-developer') {
         setActiveTab('developer');
       } else if (section === 'favorites') {
         setActiveTab('favorites');
@@ -117,8 +133,17 @@ export function App() {
         setActiveTab('about');
       } else if (section === 'about-chroma-studio') {
         setActiveTab('about-chroma-studio');
-      } else if (section === 'legal') {
-        setActiveTab('legal');
+      } else if (section === 'legal' || section === 'legal-center') {
+        if (param === 'terms') setActiveTab('terms');
+        else if (param === 'privacy') setActiveTab('privacy');
+        else if (param === 'cookies') setActiveTab('cookies');
+        else if (param === 'disclaimer') setActiveTab('disclaimer');
+        else if (param === 'acceptable-use') setActiveTab('acceptable-use');
+        else if (param === 'intellectual-property') setActiveTab('intellectual-property');
+        else if (param === 'accessibility') setActiveTab('accessibility');
+        else if (param === 'licenses') setActiveTab('licenses');
+        else if (param === 'contact') setActiveTab('contact');
+        else setActiveTab('legal');
       } else if (section === 'terms') {
         setActiveTab('terms');
       } else if (section === 'privacy') {
@@ -137,6 +162,32 @@ export function App() {
         setActiveTab('licenses');
       } else if (section === 'contact') {
         setActiveTab('contact');
+      } else if (section === 'tool-picker' || section === 'picker') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-picker');
+      } else if (section === 'tool-converter' || section === 'converter') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-converter');
+      } else if (section === 'tool-image' || section === 'tool-image-picker' || section === 'image-picker') {
+        setActiveTab('tool-image');
+      } else if (section === 'tool-palette' || section === 'tool-palette-generator' || section === 'palette-generator') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-palette');
+      } else if (section === 'tool-contrast' || section === 'tool-contrast-checker' || section === 'contrast-checker') {
+        setActiveTab('tool-contrast');
+      } else if (section === 'tool-gradient' || section === 'tool-gradient-generator' || section === 'gradient-generator') {
+        setActiveTab('tool-gradient');
+      } else if (section === 'tool-shades' || section === 'tool-shades-tints' || section === 'shades-tints') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-shades');
+      } else if (section === 'tool-mixer' || section === 'tool-color-mixer' || section === 'color-mixer') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-mixer');
+      } else if (section === 'tool-blindness' || section === 'tool-blindness-simulator' || section === 'blindness-simulator') {
+        if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        setActiveTab('tool-blindness');
+      } else if (section === 'tool-exporter' || section === 'tool-css-exporter' || section === 'css-exporter') {
+        setActiveTab('tool-exporter');
       } else if (section.startsWith('tool-')) {
         if (param) setSelectedHex(param.startsWith('#') ? param : `#${param}`);
         setActiveTab(section as ActiveTab);
@@ -145,9 +196,13 @@ export function App() {
       }
     };
 
-    parseHash();
-    window.addEventListener('hashchange', parseHash);
-    return () => window.removeEventListener('hashchange', parseHash);
+    parseRoute();
+    window.addEventListener('hashchange', parseRoute);
+    window.addEventListener('popstate', parseRoute);
+    return () => {
+      window.removeEventListener('hashchange', parseRoute);
+      window.removeEventListener('popstate', parseRoute);
+    };
   }, []);
 
   const navigateTo = useCallback((tab: ActiveTab, param?: string) => {
