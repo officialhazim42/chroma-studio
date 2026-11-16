@@ -47,17 +47,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
 
-  const toolsList: { id: ActiveTab; label: string; icon: React.ReactNode; desc: string }[] = [
-    { id: 'tool-picker', label: 'Color Picker', icon: <Pipette className="w-4 h-4 text-indigo-400" />, desc: 'Interactive picker & code copy' },
-    { id: 'tool-converter', label: 'Color Converter', icon: <Repeat className="w-4 h-4 text-sky-400" />, desc: 'Bidirectional reactive math' },
-    { id: 'tool-image', label: 'Image Color Picker', icon: <ImageIcon className="w-4 h-4 text-emerald-400" />, desc: 'Local pixel extraction & loupe' },
-    { id: 'tool-palette', label: 'Palette Generator', icon: <PaletteIcon className="w-4 h-4 text-amber-400" />, desc: 'Harmonious color schemes' },
-    { id: 'tool-contrast', label: 'Contrast Checker', icon: <CheckCircle className="w-4 h-4 text-teal-400" />, desc: 'WCAG 2.1 AA/AAA compliance' },
-    { id: 'tool-gradient', label: 'Gradient Generator', icon: <Sparkles className="w-4 h-4 text-purple-400" />, desc: 'Linear, radial & conic CSS' },
-    { id: 'tool-shades', label: 'Shades & Tints', icon: <Layers className="w-4 h-4 text-pink-400" />, desc: 'Scale tints, shades, tones' },
-    { id: 'tool-mixer', label: 'Color Mixer', icon: <Sliders className="w-4 h-4 text-orange-400" />, desc: 'Blend 2 colors by ratio' },
-    { id: 'tool-blindness', label: 'Blindness Simulator', icon: <Eye className="w-4 h-4 text-rose-400" />, desc: 'Test vision deficiencies' },
-    { id: 'tool-exporter', label: 'CSS & Dev Exporter', icon: <FileCode2 className="w-4 h-4 text-blue-400" />, desc: 'Tailwind, CSS vars, Android' },
+  const toolsList: { id: ActiveTab; label: string; icon: React.ReactNode; desc: string; href: string }[] = [
+    { id: 'tool-picker', label: 'Color Picker', icon: <Pipette className="w-4 h-4 text-indigo-400" />, desc: 'Interactive picker & code copy', href: '/tools/picker' },
+    { id: 'tool-converter', label: 'Color Converter', icon: <Repeat className="w-4 h-4 text-sky-400" />, desc: 'Bidirectional reactive math', href: '/tools/converter' },
+    { id: 'tool-image', label: 'Image Color Picker', icon: <ImageIcon className="w-4 h-4 text-emerald-400" />, desc: 'Local pixel extraction & loupe', href: '/tools/image' },
+    { id: 'tool-palette', label: 'Palette Generator', icon: <PaletteIcon className="w-4 h-4 text-amber-400" />, desc: 'Harmonious color schemes', href: '/tools/palette' },
+    { id: 'tool-contrast', label: 'Contrast Checker', icon: <CheckCircle className="w-4 h-4 text-teal-400" />, desc: 'WCAG 2.1 AA/AAA compliance', href: '/tools/contrast' },
+    { id: 'tool-gradient', label: 'Gradient Generator', icon: <Sparkles className="w-4 h-4 text-purple-400" />, desc: 'Linear, radial & conic CSS', href: '/tools/gradient' },
+    { id: 'tool-shades', label: 'Shades & Tints', icon: <Layers className="w-4 h-4 text-pink-400" />, desc: 'Scale tints, shades, tones', href: '/tools/shades' },
+    { id: 'tool-mixer', label: 'Color Mixer', icon: <Sliders className="w-4 h-4 text-orange-400" />, desc: 'Blend 2 colors by ratio', href: '/tools/mixer' },
+    { id: 'tool-blindness', label: 'Blindness Simulator', icon: <Eye className="w-4 h-4 text-rose-400" />, desc: 'Test vision deficiencies', href: '/tools/blindness' },
+    { id: 'tool-exporter', label: 'CSS & Dev Exporter', icon: <FileCode2 className="w-4 h-4 text-blue-400" />, desc: 'Tailwind, CSS vars, Android', href: '/tools/exporter' },
   ];
 
   const handleNavClick = (tab: ActiveTab, param?: string) => {
@@ -79,9 +79,13 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1.5 sm:gap-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-2 sm:gap-6 shrink-0">
-          <button
-            onClick={() => handleNavClick('home')}
-            className="flex items-center gap-1.5 sm:gap-2.5 text-left group focus:outline-none"
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('home');
+            }}
+            className="flex items-center gap-1.5 sm:gap-2.5 text-left group focus:outline-none cursor-pointer"
             aria-label="Chroma Studio Home"
           >
             {/* Logo Mark: Stylized geometric color wheel icon */}
@@ -102,27 +106,31 @@ export const Navbar: React.FC<NavbarProps> = ({
                 COLOR INTELLIGENCE
               </span>
             </div>
-          </button>
+          </a>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-1">
-            <button
-              onClick={() => handleNavClick('explore')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+            <a
+              href="/explore"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('explore');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'explore'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
               Explore Colors
-            </button>
+            </a>
 
             {/* Tools Dropdown Menu */}
             <div className="relative" onMouseLeave={() => setToolsDropdownOpen(false)}>
               <button
                 onClick={() => setToolsDropdownOpen(!toolsDropdownOpen)}
                 onMouseEnter={() => setToolsDropdownOpen(true)}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                   isToolActive
                     ? 'bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30'
                     : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -139,10 +147,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   className="absolute top-full left-0 w-80 p-2 mt-1 rounded-2xl bg-white dark:bg-[#12131A] border border-slate-200 dark:border-white/10 shadow-xl dark:shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-150 grid grid-cols-1 gap-1"
                 >
                   {toolsList.map((tool) => (
-                    <button
+                    <a
                       key={tool.id}
-                      onClick={() => handleNavClick(tool.id)}
-                      className={`flex items-start gap-3 p-2 rounded-xl text-left transition-all ${
+                      href={tool.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(tool.id);
+                      }}
+                      className={`flex items-start gap-3 p-2 rounded-xl text-left transition-all cursor-pointer ${
                         activeTab === tool.id
                           ? 'bg-indigo-50 dark:bg-indigo-600/20 text-indigo-900 dark:text-white border border-indigo-200 dark:border-indigo-500/30'
                           : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-200 group'
@@ -159,55 +171,71 @@ export const Navbar: React.FC<NavbarProps> = ({
                           {tool.desc}
                         </p>
                       </div>
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
             </div>
 
-            <button
-              onClick={() => handleNavClick('palettes')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+            <a
+              href="/palettes"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('palettes');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'palettes'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
               Palettes
-            </button>
+            </a>
 
-            <button
-              onClick={() => handleNavClick('gradients')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+            <a
+              href="/gradients"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('gradients');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'gradients'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
               Gradients
-            </button>
+            </a>
 
-            <button
-              onClick={() => handleNavClick('learn')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+            <a
+              href="/learn"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('learn');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'learn'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
               Learn
-            </button>
+            </a>
 
-            <button
-              onClick={() => handleNavClick('developer')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors ${
+            <a
+              href="/developer"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('developer');
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'developer'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
               }`}
             >
               Developer
-            </button>
+            </a>
           </nav>
         </div>
 
@@ -298,49 +326,73 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
 
           <div className="grid grid-cols-2 gap-2 pb-3 border-b border-slate-200 dark:border-white/10">
-            <button
-              onClick={() => handleNavClick('explore')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left ${
+            <a
+              href="/explore"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('explore');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left cursor-pointer ${
                 activeTab === 'explore' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
               Explore Colors
-            </button>
-            <button
-              onClick={() => handleNavClick('palettes')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left ${
+            </a>
+            <a
+              href="/palettes"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('palettes');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left cursor-pointer ${
                 activeTab === 'palettes' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
               Palettes
-            </button>
-            <button
-              onClick={() => handleNavClick('gradients')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left ${
+            </a>
+            <a
+              href="/gradients"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('gradients');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left cursor-pointer ${
                 activeTab === 'gradients' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
               Gradients
-            </button>
-            <button
-              onClick={() => handleNavClick('learn')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left ${
+            </a>
+            <a
+              href="/learn"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('learn');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left cursor-pointer ${
                 activeTab === 'learn' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
               Color Theory
-            </button>
-            <button
-              onClick={() => handleNavClick('developer')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left ${
+            </a>
+            <a
+              href="/developer"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('developer');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left cursor-pointer ${
                 activeTab === 'developer' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
               Developer Tools
-            </button>
-            <button
-              onClick={() => handleNavClick('favorites')}
-              className={`p-2.5 rounded-xl text-xs font-semibold text-left flex items-center justify-between ${
+            </a>
+            <a
+              href="/favorites"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('favorites');
+              }}
+              className={`p-2.5 rounded-xl text-xs font-semibold text-left flex items-center justify-between cursor-pointer ${
                 activeTab === 'favorites' ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-slate-200'
               }`}
             >
@@ -348,7 +400,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-mono text-[10px] bg-rose-500 text-white px-1.5 py-0.2 rounded-full">
                 {favoritesCount}
               </span>
-            </button>
+            </a>
           </div>
 
           <div>
@@ -357,10 +409,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
               {toolsList.map((tool) => (
-                <button
+                <a
                   key={tool.id}
-                  onClick={() => handleNavClick(tool.id)}
-                  className={`flex items-center gap-2.5 p-2 rounded-xl text-left text-xs transition-colors ${
+                  href={tool.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(tool.id);
+                  }}
+                  className={`flex items-center gap-2.5 p-2 rounded-xl text-left text-xs transition-colors cursor-pointer ${
                     activeTab === tool.id
                       ? 'bg-indigo-600 text-white font-bold'
                       : 'text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -368,7 +424,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 >
                   <div className="p-1 rounded bg-slate-100 dark:bg-white/5 shrink-0">{tool.icon}</div>
                   <span>{tool.label}</span>
-                </button>
+                </a>
               ))}
             </div>
           </div>

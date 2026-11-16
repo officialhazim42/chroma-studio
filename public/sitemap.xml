@@ -7,147 +7,147 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/explore</loc>
+    <loc>https://chroma-studio.surge.sh/explore</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/palettes</loc>
+    <loc>https://chroma-studio.surge.sh/palettes</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/gradients</loc>
+    <loc>https://chroma-studio.surge.sh/gradients</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/favorites</loc>
+    <loc>https://chroma-studio.surge.sh/favorites</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/learn</loc>
+    <loc>https://chroma-studio.surge.sh/learn</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/developer</loc>
+    <loc>https://chroma-studio.surge.sh/developer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/about</loc>
+    <loc>https://chroma-studio.surge.sh/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/about-chroma-studio</loc>
+    <loc>https://chroma-studio.surge.sh/about-chroma-studio</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- 10 Color Tools -->
+  <!-- 10 Professional Color Tools -->
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-picker</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/picker</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chroma-studio.surge.sh/tools/converter</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chroma-studio.surge.sh/tools/image</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-converter</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/palette</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chroma-studio.surge.sh/tools/contrast</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chroma-studio.surge.sh/tools/gradient</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-image</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/shades</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-palette</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/mixer</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-contrast</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/blindness</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-gradient</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-shades</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-mixer</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-blindness</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://chroma-studio.surge.sh/#/tool-exporter</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://chroma-studio.surge.sh/tools/exporter</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Legal & Information Center -->
   <url>
-    <loc>https://chroma-studio.surge.sh/#/legal</loc>
+    <loc>https://chroma-studio.surge.sh/legal</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/terms</loc>
+    <loc>https://chroma-studio.surge.sh/terms</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/privacy</loc>
+    <loc>https://chroma-studio.surge.sh/privacy</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/cookies</loc>
+    <loc>https://chroma-studio.surge.sh/cookies</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/disclaimer</loc>
+    <loc>https://chroma-studio.surge.sh/disclaimer</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/acceptable-use</loc>
+    <loc>https://chroma-studio.surge.sh/acceptable-use</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/intellectual-property</loc>
+    <loc>https://chroma-studio.surge.sh/intellectual-property</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/accessibility</loc>
+    <loc>https://chroma-studio.surge.sh/accessibility</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/licenses</loc>
+    <loc>https://chroma-studio.surge.sh/licenses</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://chroma-studio.surge.sh/#/contact</loc>
+    <loc>https://chroma-studio.surge.sh/contact</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>

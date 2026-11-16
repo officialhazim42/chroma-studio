@@ -43,36 +43,52 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenDevModal }) =>
             </h4>
             <ul className="space-y-2.5 text-slate-600 dark:text-slate-400 text-xs">
               <li>
-                <button
-                  onClick={() => onNavigate('explore')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/explore"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('explore');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Explore Colors
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('tool-picker')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/tools/picker"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('tool-picker');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Color Tools
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('palettes')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/palettes"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('palettes');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Palettes
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('gradients')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/gradients"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('gradients');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Gradients
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -84,36 +100,52 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenDevModal }) =>
             </h4>
             <ul className="space-y-2.5 text-slate-600 dark:text-slate-400 text-xs">
               <li>
-                <button
-                  onClick={() => onNavigate('learn')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/learn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('learn');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Learn &amp; Theory
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('developer')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/developer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('developer');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Developer Code Hub
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('learn', 'contrast')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/learn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('learn', 'contrast');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Color Guides
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('legal')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left font-medium"
+                <a
+                  href="/legal"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('legal');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left font-medium block"
                 >
                   Legal &amp; Info Center
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -125,60 +157,88 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenDevModal }) =>
             </h4>
             <ul className="space-y-2.5 text-slate-600 dark:text-slate-400 text-xs">
               <li>
-                <button
-                  onClick={() => onNavigate('terms')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/terms"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('terms');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Terms &amp; Conditions
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('privacy')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/privacy"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('privacy');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Privacy Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('cookies')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/cookies"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('cookies');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Cookie Policy
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('disclaimer')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/disclaimer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('disclaimer');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Disclaimer
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('accessibility')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/accessibility"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('accessibility');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Accessibility Statement
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('acceptable-use')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/acceptable-use"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('acceptable-use');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Acceptable Use
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('intellectual-property')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/intellectual-property"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('intellectual-property');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Intellectual Property
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -190,12 +250,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenDevModal }) =>
             </h4>
             <ul className="space-y-2.5 text-slate-600 dark:text-slate-400 text-xs">
               <li>
-                <button
-                  onClick={() => onNavigate('about-chroma-studio')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/about-chroma-studio"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('about-chroma-studio');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   About Chroma Studio
-                </button>
+                </a>
               </li>
               <li>
                 <button
@@ -206,20 +270,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenDevModal }) =>
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('contact');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Contact &amp; Support
-                </button>
+                </a>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('licenses')}
-                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left"
+                <a
+                  href="/licenses"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate('licenses');
+                  }}
+                  className="hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 transition-colors cursor-pointer text-left block"
                 >
                   Licenses &amp; Credits
-                </button>
+                </a>
               </li>
             </ul>
           </div>

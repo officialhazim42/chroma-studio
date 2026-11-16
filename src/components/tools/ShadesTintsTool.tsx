@@ -10,7 +10,8 @@ import {
   generateShades,
   generateTones,
   getColorData,
-  isValidHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
   normalizeHex,
 } from '../../utils/colorEngine';
 import { ActiveTab } from '../../types/color';
@@ -27,13 +28,32 @@ export const ShadesTintsTool: React.FC<ShadesTintsToolProps> = ({
   onCopySuccess,
   initialHex = '#6366F1',
 }) => {
-  const [baseHex, setBaseHex] = useState(
-    isValidHex(initialHex) ? normalizeHex(initialHex) : '#6366F1'
+  const [activeHex, setActiveHex] = useState(
+    isValidHexColor(initialHex) ? normalizeHex(initialHex) : '#6366F1'
   );
+  const [baseHex, setBaseHex] = useState(activeHex);
+  const [hexError, setHexError] = useState<string | null>(null);
   const [steps, setSteps] = useState<number>(10);
 
-  const hex = isValidHex(baseHex) ? normalizeHex(baseHex) : '#6366F1';
+  const hex = activeHex;
   const colorData = getColorData(hex);
+
+  const handleBaseHexChange = (val: string) => {
+    setBaseHex(val);
+    if (!isValidHexColor(val)) {
+      setHexError(HEX_VALIDATION_ERROR);
+    } else {
+      setHexError(null);
+      setActiveHex(normalizeHex(val));
+    }
+  };
+
+  const handlePickerChange = (val: string) => {
+    const norm = normalizeHex(val);
+    setBaseHex(norm);
+    setActiveHex(norm);
+    setHexError(null);
+  };
 
   const tints = generateTints(hex, steps);
   const shades = generateShades(hex, steps);
@@ -111,12 +131,13 @@ export const ShadesTintsTool: React.FC<ShadesTintsToolProps> = ({
           <label
             className="w-10 h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
             style={{ backgroundColor: hex }}
+            title="Pick base color"
           >
             <Pipette className="w-4 h-4 text-white mix-blend-difference" />
             <input
               type="color"
               value={hex}
-              onChange={(e) => setBaseHex(normalizeHex(e.target.value))}
+              onChange={(e) => handlePickerChange(e.target.value)}
               className="opacity-0 w-0 h-0 absolute pointer-events-none"
             />
           </label>
@@ -125,12 +146,22 @@ export const ShadesTintsTool: React.FC<ShadesTintsToolProps> = ({
             <input
               type="text"
               value={baseHex}
-              onChange={(e) => setBaseHex(e.target.value)}
-              className="bg-[#181A24] border border-white/10 rounded-xl px-3 py-1.5 font-mono text-sm font-bold text-white focus:outline-none focus:border-pink-500 w-32"
+              onChange={(e) => handleBaseHexChange(e.target.value)}
+              placeholder="#6366F1"
+              aria-label="Base HEX color"
+              className={`bg-[#181A24] border ${
+                hexError ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+              } rounded-xl px-3 py-1.5 font-mono text-sm font-bold text-white focus:outline-none focus:border-pink-500 w-32`}
             />
-            <span className="text-[11px] text-slate-400 block ml-1 mt-0.5">
-              {colorData.name}
-            </span>
+            {hexError ? (
+              <span className="text-[11px] text-rose-400 font-medium block ml-1 mt-0.5">
+                {hexError}
+              </span>
+            ) : (
+              <span className="text-[11px] text-slate-400 block ml-1 mt-0.5">
+                {colorData.name}
+              </span>
+            )}
           </div>
         </div>
 

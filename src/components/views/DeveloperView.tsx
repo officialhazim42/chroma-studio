@@ -9,7 +9,7 @@ import {
 import { ActiveTab } from '../../types/color';
 import { CopyButton } from '../ui/CopyButton';
 
-// 140 standard named CSS colors
+// Standard named CSS colors dataset (141 official W3C color names)
 const STANDARD_CSS_COLORS = [
   { name: 'aliceblue', hex: '#F0F8FF' },
   { name: 'antiquewhite', hex: '#FAEBD7' },
@@ -243,7 +243,7 @@ module.exports = {
       {/* Navigation Tabs */}
       <div className="flex flex-wrap gap-2 mb-8 bg-slate-100 dark:bg-[#12131A] p-1.5 rounded-2xl border border-slate-200 dark:border-white/10 w-fit">
         {[
-          { id: 'html-reference', label: '140 HTML CSS Colors' },
+          { id: 'html-reference', label: `${STANDARD_CSS_COLORS.length} HTML CSS Colors` },
           { id: 'css', label: 'CSS Variables System' },
           { id: 'android', label: 'Android XML (colors.xml)' },
           { id: 'tailwind', label: 'Tailwind Config' },
@@ -272,7 +272,7 @@ module.exports = {
                 type="text"
                 value={referenceSearch}
                 onChange={(e) => setReferenceSearch(e.target.value)}
-                placeholder="Search standard 140 CSS colors (e.g. crimson, dodgerblue)..."
+                placeholder={`Search standard ${STANDARD_CSS_COLORS.length} CSS colors (e.g. crimson, dodgerblue)...`}
                 className="w-full bg-slate-50 dark:bg-[#181A24] border border-slate-300 dark:border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white"
               />
             </div>

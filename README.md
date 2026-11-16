@@ -114,7 +114,7 @@ Chroma Studio is a modern, high-performance, privacy-first color intelligence pl
 - **Color Theory & Learn (`/#/learn`):**
   - 9 educational modules covering HEX byte notation, additive RGB displays, subtractive CMYK inks, HSL cylindrical geometry, classical 12-spoke color wheel harmonies, WCAG relative luminance math, inclusive design, and gamut boundaries.
 - **Developer Hub (`/#/developer`):**
-  - Standard reference table of all 140 named W3C CSS colors with one-click copy.
+  - Standard reference table of all 141 named W3C CSS colors with one-click copy.
   - Android Jetpack Compose and `colors.xml` resources.
 
 ---

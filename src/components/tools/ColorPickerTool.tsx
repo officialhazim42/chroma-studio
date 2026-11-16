@@ -10,7 +10,8 @@ import {
 import {
   getColorData,
   getRandomHex,
-  isValidHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
   normalizeHex,
   hslToRgb,
   rgbToHex,
@@ -34,8 +35,10 @@ export const ColorPickerTool: React.FC<ColorPickerToolProps> = ({
   initialHex = '#6366F1',
 }) => {
   const [currentHex, setCurrentHex] = useState(
-    isValidHex(initialHex) ? normalizeHex(initialHex) : '#6366F1'
+    isValidHexColor(initialHex) ? normalizeHex(initialHex) : '#6366F1'
   );
+  const [hexInput, setHexInput] = useState(currentHex);
+  const [hexError, setHexError] = useState<string | null>(null);
   const [previewBg, setPreviewBg] = useState<'dark' | 'light' | 'checkered'>('dark');
 
   const colorData: ColorData = getColorData(currentHex);
@@ -44,18 +47,27 @@ export const ColorPickerTool: React.FC<ColorPickerToolProps> = ({
   const handleRandomize = () => {
     const next = getRandomHex();
     setCurrentHex(next);
+    setHexInput(next);
+    setHexError(null);
   };
 
   const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    if (isValidHex(val)) {
+    setHexInput(val);
+    if (!isValidHexColor(val)) {
+      setHexError(HEX_VALIDATION_ERROR);
+    } else {
+      setHexError(null);
       setCurrentHex(normalizeHex(val));
     }
   };
 
   const handleRgbChange = (channel: 'r' | 'g' | 'b', val: number) => {
     const nextRgb = { ...colorData.rgb, [channel]: Math.max(0, Math.min(255, val)) };
-    setCurrentHex(rgbToHex(nextRgb.r, nextRgb.g, nextRgb.b));
+    const nextHex = rgbToHex(nextRgb.r, nextRgb.g, nextRgb.b);
+    setCurrentHex(nextHex);
+    setHexInput(nextHex);
+    setHexError(null);
   };
 
   const handleHslChange = (channel: 'h' | 's' | 'l', val: number) => {
@@ -63,7 +75,10 @@ export const ColorPickerTool: React.FC<ColorPickerToolProps> = ({
     const clamped = Math.max(0, Math.min(maxVal, val));
     const nextHsl = { ...colorData.hsl, [channel]: clamped };
     const rgb = hslToRgb(nextHsl.h, nextHsl.s, nextHsl.l);
-    setCurrentHex(rgbToHex(rgb.r, rgb.g, rgb.b));
+    const nextHex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    setCurrentHex(nextHex);
+    setHexInput(nextHex);
+    setHexError(null);
   };
 
   const copyAllFormats = () => {
@@ -327,19 +342,32 @@ CSS: color: ${colorData.hex};`;
 
             <div className="space-y-3">
               {/* HEX Input */}
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 dark:bg-white/[0.03] dark:border-white/10">
+              <div
+                className={`p-3 rounded-xl bg-slate-50 border ${
+                  hexError ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-slate-200'
+                } dark:bg-white/[0.03] ${
+                  hexError ? 'dark:border-rose-500 dark:ring-1 dark:ring-rose-500/50' : 'dark:border-white/10'
+                }`}
+              >
                 <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Hex Code
                 </span>
                 <div className="flex items-center justify-between gap-2">
                   <input
                     type="text"
-                    value={currentHex}
+                    value={hexInput}
                     onChange={handleHexChange}
-                    className="bg-transparent font-mono font-bold text-base text-slate-900 dark:text-white focus:outline-none flex-1"
+                    placeholder="#6366F1"
+                    aria-label="Hex Color Code"
+                    className="bg-transparent font-mono font-bold text-base text-slate-900 dark:text-white focus:outline-none flex-1 min-w-0"
                   />
                   <CopyButton textToCopy={colorData.hex} size="sm" showIconOnly onCopySuccess={onCopySuccess} />
                 </div>
+                {hexError && (
+                  <p className="text-[11px] text-rose-500 dark:text-rose-400 font-medium mt-1">
+                    {hexError}
+                  </p>
+                )}
               </div>
 
               {/* RGB Input */}

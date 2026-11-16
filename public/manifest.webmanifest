@@ -41,6 +41,24 @@
       "type": "image/png"
     },
     {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
@@ -64,29 +82,29 @@
       "name": "Color Picker",
       "short_name": "Picker",
       "description": "Select colors with 2D HSV canvas, 360° hue bar, and cross-format inspector",
-      "url": "/#/tools/picker",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "url": "/tools/picker",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Color Converter",
       "short_name": "Converter",
       "description": "Bidirectional conversion between HEX, RGB, HSL, HSV, and CMYK",
-      "url": "/#/tools/converter",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "url": "/tools/converter",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Contrast Checker",
       "short_name": "Contrast",
       "description": "Test WCAG 2.2 AA and AAA contrast accessibility ratios",
-      "url": "/#/tools/contrast",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "url": "/tools/contrast",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Palette Generator",
       "short_name": "Palettes",
       "description": "Generate harmonious color schemes and lock specific tones",
-      "url": "/#/tools/palette",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+      "url": "/tools/palette",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

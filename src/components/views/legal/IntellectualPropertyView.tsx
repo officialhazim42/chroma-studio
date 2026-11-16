@@ -85,7 +85,7 @@ export const IntellectualPropertyView: React.FC<IntellectualPropertyViewProps> =
         </p>
         <ul className="list-disc pl-5 space-y-1.5 text-slate-700 dark:text-slate-300">
           <li><strong>Hexadecimal &amp; RGB values:</strong> 24-bit sRGB color byte values (such as <code>#FF0000</code> for pure red) are universal mathematical coordinates and cannot be copyrighted.</li>
-          <li><strong>Named CSS Colors:</strong> The standard 140 named web colors (e.g. <em>&ldquo;Coral&rdquo;, &ldquo;SlateBlue&rdquo;, &ldquo;Teal&rdquo;</em>) are standardized by the World Wide Web Consortium (W3C) and HTML specifications.</li>
+          <li><strong>Named CSS Colors:</strong> The standard 141 named web colors (e.g. <em>&ldquo;Coral&rdquo;, &ldquo;SlateBlue&rdquo;, &ldquo;Teal&rdquo;</em>) are standardized by the World Wide Web Consortium (W3C) and HTML specifications.</li>
           <li><strong>Color Science Equations:</strong> Mathematical algorithms for CIE relative luminance, HSL coordinate transformation, and trichromatic simulation algorithms are established academic formulas.</li>
         </ul>
       </section>

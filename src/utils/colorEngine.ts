@@ -35,6 +35,18 @@ export function isValidHex(hex: string): boolean {
   return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(hex.trim());
 }
 
+/**
+ * Strict standard HEX color validation (3 or 6 hex characters with optional '#')
+ * Supports: #FFF, #FFFFFF, 000000, #12ABEF
+ * Rejects: #ZZZ, #12G, #12345, empty strings
+ */
+export function isValidHexColor(hex: string): boolean {
+  if (!hex) return false;
+  return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex.trim());
+}
+
+export const HEX_VALIDATION_ERROR = 'Enter a valid HEX color.';
+
 export function hexToRgb(hex: string): RGB {
   let clean = hex.replace('#', '').trim();
   if (clean.length === 3) {

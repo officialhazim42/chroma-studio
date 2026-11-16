@@ -8,7 +8,8 @@ import {
 } from 'lucide-react';
 import {
   getWCAGScore,
-  isValidHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
   normalizeHex,
   getColorData,
 } from '../../utils/colorEngine';
@@ -28,24 +29,62 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
   initialFg = '#FFFFFF',
   initialBg = '#4F46E5',
 }) => {
-  const [fgColor, setFgColor] = useState(
-    isValidHex(initialFg) ? normalizeHex(initialFg) : '#FFFFFF'
+  const [fgHex, setFgHex] = useState(
+    isValidHexColor(initialFg) ? normalizeHex(initialFg) : '#FFFFFF'
   );
-  const [bgColor, setBgColor] = useState(
-    isValidHex(initialBg) ? normalizeHex(initialBg) : '#4F46E5'
+  const [bgHex, setBgHex] = useState(
+    isValidHexColor(initialBg) ? normalizeHex(initialBg) : '#4F46E5'
   );
-
-  const fgHex = isValidHex(fgColor) ? normalizeHex(fgColor) : '#FFFFFF';
-  const bgHex = isValidHex(bgColor) ? normalizeHex(bgColor) : '#4F46E5';
+  const [fgColor, setFgColor] = useState(fgHex);
+  const [bgColor, setBgColor] = useState(bgHex);
+  const [fgError, setFgError] = useState<string | null>(null);
+  const [bgError, setBgError] = useState<string | null>(null);
 
   const score: WCAGScore = getWCAGScore(fgHex, bgHex);
   const fgData = getColorData(fgHex);
   const bgData = getColorData(bgHex);
 
+  const handleFgChange = (val: string) => {
+    setFgColor(val);
+    if (!isValidHexColor(val)) {
+      setFgError(HEX_VALIDATION_ERROR);
+    } else {
+      setFgError(null);
+      setFgHex(normalizeHex(val));
+    }
+  };
+
+  const handleBgChange = (val: string) => {
+    setBgColor(val);
+    if (!isValidHexColor(val)) {
+      setBgError(HEX_VALIDATION_ERROR);
+    } else {
+      setBgError(null);
+      setBgHex(normalizeHex(val));
+    }
+  };
+
+  const handleFgPickerChange = (hex: string) => {
+    const norm = normalizeHex(hex);
+    setFgColor(norm);
+    setFgHex(norm);
+    setFgError(null);
+  };
+
+  const handleBgPickerChange = (hex: string) => {
+    const norm = normalizeHex(hex);
+    setBgColor(norm);
+    setBgHex(norm);
+    setBgError(null);
+  };
+
   const swapColors = () => {
-    const temp = fgHex;
     setFgColor(bgHex);
-    setBgColor(temp);
+    setFgHex(bgHex);
+    setFgError(null);
+    setBgColor(fgHex);
+    setBgHex(fgHex);
+    setBgError(null);
   };
 
   const samplePresets = [
@@ -88,7 +127,7 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Interactive Color Selectors & Score Summary */}
-        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-white uppercase tracking-wider">
               Color Inputs
@@ -104,7 +143,7 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
           </div>
 
           {/* Foreground Input */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-300">
                 Text / Foreground Color
@@ -113,9 +152,9 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
                 {fgData.name}
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <label
-                className="w-10 h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
                 style={{ backgroundColor: fgHex }}
                 title="Pick foreground color"
               >
@@ -123,30 +162,35 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
                 <input
                   type="color"
                   value={fgHex}
-                  onChange={(e) => setFgColor(normalizeHex(e.target.value))}
+                  onChange={(e) => handleFgPickerChange(e.target.value)}
                   className="opacity-0 w-0 h-0 absolute pointer-events-none"
                 />
               </label>
               <input
                 type="text"
                 value={fgColor}
-                onChange={(e) => setFgColor(e.target.value)}
-                className="flex-1 bg-[#181A24] border border-white/10 rounded-xl px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-teal-500"
+                onChange={(e) => handleFgChange(e.target.value)}
+                className={`flex-1 min-w-0 bg-[#181A24] border ${fgError ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'} rounded-xl px-2.5 sm:px-3 py-2 font-mono text-xs sm:text-sm font-bold text-white focus:outline-none focus:border-teal-500`}
+                placeholder="#FFFFFF"
+                aria-label="Foreground HEX color"
               />
               <button
                 type="button"
                 onClick={() => onNavigate('color-detail', fgHex)}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white"
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white shrink-0"
                 title={`Inspect ${fgHex}`}
                 aria-label={`Inspect ${fgHex}`}
               >
                 <Eye className="w-4 h-4" />
               </button>
             </div>
+            {fgError && (
+              <p className="text-[11px] text-rose-400 font-medium">{fgError}</p>
+            )}
           </div>
 
           {/* Background Input */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-300">
                 Background Surface Color
@@ -155,9 +199,9 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
                 {bgData.name}
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <label
-                className="w-10 h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
                 style={{ backgroundColor: bgHex }}
                 title="Pick background color"
               >
@@ -165,26 +209,31 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
                 <input
                   type="color"
                   value={bgHex}
-                  onChange={(e) => setBgColor(normalizeHex(e.target.value))}
+                  onChange={(e) => handleBgPickerChange(e.target.value)}
                   className="opacity-0 w-0 h-0 absolute pointer-events-none"
                 />
               </label>
               <input
                 type="text"
                 value={bgColor}
-                onChange={(e) => setBgColor(e.target.value)}
-                className="flex-1 bg-[#181A24] border border-white/10 rounded-xl px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-teal-500"
+                onChange={(e) => handleBgChange(e.target.value)}
+                className={`flex-1 min-w-0 bg-[#181A24] border ${bgError ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'} rounded-xl px-2.5 sm:px-3 py-2 font-mono text-xs sm:text-sm font-bold text-white focus:outline-none focus:border-teal-500`}
+                placeholder="#4F46E5"
+                aria-label="Background HEX color"
               />
               <button
                 type="button"
                 onClick={() => onNavigate('color-detail', bgHex)}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white"
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white shrink-0"
                 title={`Inspect ${bgHex}`}
                 aria-label={`Inspect ${bgHex}`}
               >
                 <Eye className="w-4 h-4" />
               </button>
             </div>
+            {bgError && (
+              <p className="text-[11px] text-rose-400 font-medium">{bgError}</p>
+            )}
           </div>
 
           {/* Contrast Score Box */}
@@ -215,8 +264,8 @@ export const ContrastCheckerTool: React.FC<ContrastCheckerToolProps> = ({
                 <button
                   key={preset.name}
                   onClick={() => {
-                    setFgColor(preset.fg);
-                    setBgColor(preset.bg);
+                    handleFgPickerChange(preset.fg);
+                    handleBgPickerChange(preset.bg);
                   }}
                   className="flex items-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 transition-all text-left"
                 >

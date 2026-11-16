@@ -5,7 +5,8 @@ import {
   hslToRgb,
   hsvToRgb,
   cmykToRgb,
-  isValidHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
   normalizeHex,
   getColorData,
 } from '../../utils/colorEngine';
@@ -23,37 +24,55 @@ export const ColorConverterTool: React.FC<ColorConverterToolProps> = ({
   onCopySuccess,
   initialHex = '#3B82F6',
 }) => {
-  const [hexInput, setHexInput] = useState(
-    isValidHex(initialHex) ? normalizeHex(initialHex) : '#3B82F6'
+  const [activeHex, setActiveHex] = useState(
+    isValidHexColor(initialHex) ? normalizeHex(initialHex) : '#3B82F6'
   );
+  const [hexInput, setHexInput] = useState(activeHex);
+  const [hexError, setHexError] = useState<string | null>(null);
 
-  // Parse color data reactive to hex
-  const activeHex = isValidHex(hexInput) ? normalizeHex(hexInput) : '#3B82F6';
+  // Parse color data reactive to valid hex
   const colorData = getColorData(activeHex);
 
   // Handlers for bidirectional instant updating
   const handleHexChange = (val: string) => {
     setHexInput(val);
+    if (!isValidHexColor(val)) {
+      setHexError(HEX_VALIDATION_ERROR);
+    } else {
+      setHexError(null);
+      setActiveHex(normalizeHex(val));
+    }
   };
 
   const handleRgbFieldChange = (r: number, g: number, b: number) => {
     const nextHex = rgbToHex(r, g, b);
     setHexInput(nextHex);
+    setActiveHex(nextHex);
+    setHexError(null);
   };
 
   const handleHslFieldChange = (h: number, s: number, l: number) => {
     const rgb = hslToRgb(h, s, l);
-    setHexInput(rgbToHex(rgb.r, rgb.g, rgb.b));
+    const nextHex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    setHexInput(nextHex);
+    setActiveHex(nextHex);
+    setHexError(null);
   };
 
   const handleHsvFieldChange = (h: number, s: number, v: number) => {
     const rgb = hsvToRgb(h, s, v);
-    setHexInput(rgbToHex(rgb.r, rgb.g, rgb.b));
+    const nextHex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    setHexInput(nextHex);
+    setActiveHex(nextHex);
+    setHexError(null);
   };
 
   const handleCmykFieldChange = (c: number, m: number, y: number, k: number) => {
     const rgb = cmykToRgb(c, m, y, k);
-    setHexInput(rgbToHex(rgb.r, rgb.g, rgb.b));
+    const nextHex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    setHexInput(nextHex);
+    setActiveHex(nextHex);
+    setHexError(null);
   };
 
   const presets = [
@@ -116,10 +135,15 @@ export const ColorConverterTool: React.FC<ColorConverterToolProps> = ({
               {presets.map((preset) => (
                 <button
                   key={preset}
-                  onClick={() => setHexInput(preset)}
-                  className="w-6 h-6 rounded-lg border border-white/20 transition-transform hover:scale-110 active:scale-95 shadow-sm"
+                  onClick={() => {
+                    setHexInput(preset);
+                    setActiveHex(preset);
+                    setHexError(null);
+                  }}
+                  className="w-6 h-6 rounded-lg border border-white/20 transition-transform hover:scale-110 active:scale-95 shadow-sm cursor-pointer"
                   style={{ backgroundColor: preset }}
                   title={preset}
+                  aria-label={`Preset ${preset}`}
                 />
               ))}
             </div>
@@ -127,7 +151,7 @@ export const ColorConverterTool: React.FC<ColorConverterToolProps> = ({
 
           <button
             onClick={() => onNavigate('color-detail', activeHex)}
-            className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-semibold shrink-0 transition-colors"
+            className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-semibold shrink-0 transition-colors cursor-pointer"
           >
             Deep Inspection &rarr;
           </button>
@@ -148,11 +172,18 @@ export const ColorConverterTool: React.FC<ColorConverterToolProps> = ({
               value={hexInput}
               onChange={(e) => handleHexChange(e.target.value)}
               placeholder="#3B82F6"
-              className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-base font-bold text-white focus:outline-none focus:border-sky-500"
+              aria-label="Hex color input"
+              className={`w-full bg-[#181A24] border ${
+                hexError ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+              } rounded-xl px-3.5 py-2.5 font-mono text-base font-bold text-white focus:outline-none focus:border-sky-500`}
             />
-            <p className="text-[11px] text-slate-400">
-              Valid formats: #RGB, #RRGGBB
-            </p>
+            {hexError ? (
+              <p className="text-[11px] text-rose-400 font-medium">{hexError}</p>
+            ) : (
+              <p className="text-[11px] text-slate-400">
+                Valid formats: #RGB, #RRGGBB (e.g. #FFF, #3B82F6, 000000)
+              </p>
+            )}
           </div>
 
           {/* 2. RGB Inputs */}

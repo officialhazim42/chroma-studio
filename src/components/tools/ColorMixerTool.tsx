@@ -8,7 +8,8 @@ import {
 import {
   mixColors,
   getColorData,
-  isValidHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
   normalizeHex,
 } from '../../utils/colorEngine';
 import { ActiveTab } from '../../types/color';
@@ -27,25 +28,63 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
   initialColor1 = '#3B82F6',
   initialColor2 = '#EC4899',
 }) => {
-  const [color1, setColor1] = useState(
-    isValidHex(initialColor1) ? normalizeHex(initialColor1) : '#3B82F6'
+  const [c1, setC1] = useState(
+    isValidHexColor(initialColor1) ? normalizeHex(initialColor1) : '#3B82F6'
   );
-  const [color2, setColor2] = useState(
-    isValidHex(initialColor2) ? normalizeHex(initialColor2) : '#EC4899'
+  const [c2, setC2] = useState(
+    isValidHexColor(initialColor2) ? normalizeHex(initialColor2) : '#EC4899'
   );
+  const [color1, setColor1] = useState(c1);
+  const [color2, setColor2] = useState(c2);
+  const [color1Error, setColor1Error] = useState<string | null>(null);
+  const [color2Error, setColor2Error] = useState<string | null>(null);
   const [ratio, setRatio] = useState<number>(0.5);
   const [mixMode, setMixMode] = useState<'rgb' | 'hsl'>('rgb');
-
-  const c1 = isValidHex(color1) ? normalizeHex(color1) : '#3B82F6';
-  const c2 = isValidHex(color2) ? normalizeHex(color2) : '#EC4899';
 
   const mixedHex = mixColors(c1, c2, ratio, mixMode);
   const mixedData = getColorData(mixedHex);
 
+  const handleColor1Change = (val: string) => {
+    setColor1(val);
+    if (!isValidHexColor(val)) {
+      setColor1Error(HEX_VALIDATION_ERROR);
+    } else {
+      setColor1Error(null);
+      setC1(normalizeHex(val));
+    }
+  };
+
+  const handleColor2Change = (val: string) => {
+    setColor2(val);
+    if (!isValidHexColor(val)) {
+      setColor2Error(HEX_VALIDATION_ERROR);
+    } else {
+      setColor2Error(null);
+      setC2(normalizeHex(val));
+    }
+  };
+
+  const handleColor1PickerChange = (hex: string) => {
+    const norm = normalizeHex(hex);
+    setColor1(norm);
+    setC1(norm);
+    setColor1Error(null);
+  };
+
+  const handleColor2PickerChange = (hex: string) => {
+    const norm = normalizeHex(hex);
+    setColor2(norm);
+    setC2(norm);
+    setColor2Error(null);
+  };
+
   const swapColors = () => {
-    const temp = c1;
     setColor1(c2);
-    setColor2(temp);
+    setC1(c2);
+    setColor1Error(null);
+    setColor2(c1);
+    setC2(c1);
+    setColor2Error(null);
   };
 
   // Generate 11 step progression (0% to 100% in 10% steps)
@@ -76,7 +115,7 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Mixer Controls */}
-        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-white uppercase tracking-wider">
               Input Colors
@@ -91,57 +130,73 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
           </div>
 
           {/* Color 1 Input */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
             <span className="text-xs font-semibold text-slate-300">
               Primary Base Color (Color A)
             </span>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <label
-                className="w-10 h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
                 style={{ backgroundColor: c1 }}
+                title="Pick Color A"
               >
                 <Pipette className="w-4 h-4 text-white mix-blend-difference" />
                 <input
                   type="color"
                   value={c1}
-                  onChange={(e) => setColor1(normalizeHex(e.target.value))}
+                  onChange={(e) => handleColor1PickerChange(e.target.value)}
                   className="opacity-0 w-0 h-0 absolute pointer-events-none"
                 />
               </label>
               <input
                 type="text"
                 value={color1}
-                onChange={(e) => setColor1(e.target.value)}
-                className="flex-1 bg-[#181A24] border border-white/10 rounded-xl px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500"
+                onChange={(e) => handleColor1Change(e.target.value)}
+                placeholder="#3B82F6"
+                aria-label="Color A HEX code"
+                className={`flex-1 min-w-0 bg-[#181A24] border ${
+                  color1Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+                } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
               />
             </div>
+            {color1Error && (
+              <p className="text-[11px] text-rose-400 font-medium">{color1Error}</p>
+            )}
           </div>
 
           {/* Color 2 Input */}
-          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
             <span className="text-xs font-semibold text-slate-300">
               Secondary Blend Color (Color B)
             </span>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <label
-                className="w-10 h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl border border-white/20 shadow-md shrink-0 cursor-pointer flex items-center justify-center"
                 style={{ backgroundColor: c2 }}
+                title="Pick Color B"
               >
                 <Pipette className="w-4 h-4 text-white mix-blend-difference" />
                 <input
                   type="color"
                   value={c2}
-                  onChange={(e) => setColor2(normalizeHex(e.target.value))}
+                  onChange={(e) => handleColor2PickerChange(e.target.value)}
                   className="opacity-0 w-0 h-0 absolute pointer-events-none"
                 />
               </label>
               <input
                 type="text"
                 value={color2}
-                onChange={(e) => setColor2(e.target.value)}
-                className="flex-1 bg-[#181A24] border border-white/10 rounded-xl px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500"
+                onChange={(e) => handleColor2Change(e.target.value)}
+                placeholder="#EC4899"
+                aria-label="Color B HEX code"
+                className={`flex-1 min-w-0 bg-[#181A24] border ${
+                  color2Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+                } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
               />
             </div>
+            {color2Error && (
+              <p className="text-[11px] text-rose-400 font-medium">{color2Error}</p>
+            )}
           </div>
 
           {/* Mixing Mode (RGB vs HSL) */}

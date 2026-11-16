@@ -8,7 +8,12 @@ import {
 } from 'lucide-react';
 import { ActiveTab } from '../../types/color';
 import { CopyButton } from '../ui/CopyButton';
-import { normalizeHex, getRandomHex } from '../../utils/colorEngine';
+import {
+  normalizeHex,
+  isValidHexColor,
+  HEX_VALIDATION_ERROR,
+  getRandomHex,
+} from '../../utils/colorEngine';
 
 interface ExportColorItem {
   key: string;
@@ -51,7 +56,9 @@ export const CssExporterTool: React.FC<CssExporterToolProps> = ({
 
   const updateItem = (idx: number, key: string, hex: string) => {
     setPaletteColors(
-      paletteColors.map((item, i) => (i === idx ? { key, hex: normalizeHex(hex) } : item))
+      paletteColors.map((item, i) =>
+        i === idx ? { key, hex: isValidHexColor(hex) ? normalizeHex(hex) : hex } : item
+      )
     );
   };
 
@@ -174,7 +181,7 @@ ${paletteColors
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Manage Color Tokens */}
-        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="lg:col-span-5 bg-[#12131A] border border-white/10 rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-bold text-white uppercase tracking-wider">
               Color Token List
@@ -190,59 +197,77 @@ ${paletteColors
 
           {/* Token inputs */}
           <div className="space-y-3">
-            {paletteColors.map((colorItem, idx) => (
-              <div
-                key={idx}
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-white/5"
-              >
-                <label
-                  className="w-8 h-8 rounded-lg border border-white/20 shrink-0 shadow-sm cursor-pointer"
-                  style={{ backgroundColor: colorItem.hex }}
-                >
-                  <input
-                    type="color"
-                    value={colorItem.hex}
-                    onChange={(e) => updateItem(idx, colorItem.key, e.target.value)}
-                    className="opacity-0 w-0 h-0 absolute pointer-events-none"
-                  />
-                </label>
-
-                <input
-                  type="text"
-                  value={colorItem.key}
-                  onChange={(e) => updateItem(idx, e.target.value, colorItem.hex)}
-                  placeholder="token-name"
-                  className="flex-1 bg-[#181A24] border border-white/10 rounded-lg px-2.5 py-1 text-xs font-mono text-white focus:outline-none focus:border-indigo-500"
-                />
-
-                <input
-                  type="text"
-                  value={colorItem.hex}
-                  onChange={(e) => updateItem(idx, colorItem.key, e.target.value)}
-                  className="w-20 bg-[#181A24] border border-white/10 rounded-lg px-2 py-1 text-xs font-mono text-white focus:outline-none focus:border-indigo-500"
-                />
-
-                <button
-                  type="button"
-                  onClick={() => onNavigate('color-detail', colorItem.hex)}
-                  className="p-1 text-slate-500 hover:text-indigo-400 rounded"
-                  title={`Inspect ${colorItem.hex}`}
-                  aria-label={`Inspect ${colorItem.hex}`}
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                </button>
-
-                {paletteColors.length > 1 && (
-                  <button
-                    onClick={() => removeColor(idx)}
-                    className="p-1 text-slate-500 hover:text-rose-400 rounded"
-                    title="Remove token"
+            {paletteColors.map((colorItem, idx) => {
+              const isInvalid = !isValidHexColor(colorItem.hex);
+              return (
+                <div key={idx} className="space-y-1">
+                  <div
+                    className={`flex items-center gap-1.5 sm:gap-2 p-2 sm:p-2.5 rounded-xl bg-white/[0.03] border ${
+                      isInvalid ? 'border-rose-500/80 ring-1 ring-rose-500/40' : 'border-white/5'
+                    }`}
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            ))}
+                    <label
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-white/20 shrink-0 shadow-sm cursor-pointer"
+                      style={{ backgroundColor: isInvalid ? '#333' : colorItem.hex }}
+                    >
+                      <input
+                        type="color"
+                        value={isInvalid ? '#000000' : colorItem.hex}
+                        onChange={(e) => updateItem(idx, colorItem.key, e.target.value)}
+                        className="opacity-0 w-0 h-0 absolute pointer-events-none"
+                      />
+                    </label>
+
+                    <input
+                      type="text"
+                      value={colorItem.key}
+                      onChange={(e) => updateItem(idx, e.target.value, colorItem.hex)}
+                      placeholder="token-name"
+                      aria-label="Token name"
+                      className="flex-1 min-w-0 bg-[#181A24] border border-white/10 rounded-lg px-2 sm:px-2.5 py-1 text-xs font-mono text-white focus:outline-none focus:border-indigo-500"
+                    />
+
+                    <input
+                      type="text"
+                      value={colorItem.hex}
+                      onChange={(e) => updateItem(idx, colorItem.key, e.target.value)}
+                      placeholder="#HEX"
+                      aria-label="Token HEX color"
+                      className={`w-16 sm:w-20 shrink-0 bg-[#181A24] border ${
+                        isInvalid ? 'border-rose-500 text-rose-300' : 'border-white/10 text-white'
+                      } rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono focus:outline-none focus:border-indigo-500`}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => onNavigate('color-detail', colorItem.hex)}
+                      className="p-1 text-slate-500 hover:text-indigo-400 rounded shrink-0"
+                      title={`Inspect ${colorItem.hex}`}
+                      aria-label={`Inspect ${colorItem.hex}`}
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
+
+                    {paletteColors.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeColor(idx)}
+                        className="p-1 text-slate-500 hover:text-rose-400 rounded shrink-0"
+                        title="Remove token"
+                        aria-label="Remove token"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  {isInvalid && (
+                    <p className="text-[10px] text-rose-400 font-medium pl-1">
+                      {HEX_VALIDATION_ERROR}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 

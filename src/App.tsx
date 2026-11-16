@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { FloatingDeveloperButton } from './components/layout/FloatingDeveloperButton';
 import { BackToTopButton } from './components/layout/BackToTopButton';
-import { DeveloperModal } from './components/layout/DeveloperModal';
-import { QuickSearchModal } from './components/layout/QuickSearchModal';
+import { Breadcrumb, BreadcrumbItem } from './components/layout/Breadcrumb';
 import { ToastContainer, ToastMessage } from './components/ui/Toast';
 
-// Homepage Components
+// Modals - Lazy loaded on user interaction
+const DeveloperModal = lazy(() => import('./components/layout/DeveloperModal').then((m) => ({ default: m.DeveloperModal })));
+const QuickSearchModal = lazy(() => import('./components/layout/QuickSearchModal').then((m) => ({ default: m.QuickSearchModal })));
+
+// Homepage Components - Kept synchronous for instant first paint
 import { Hero } from './components/home/Hero';
 import { QuickAccess } from './components/home/QuickAccess';
 import { FamilyBrowser } from './components/home/FamilyBrowser';
@@ -15,39 +18,39 @@ import { FeaturedPalettes } from './components/home/FeaturedPalettes';
 import { PopularColors } from './components/home/PopularColors';
 import { FeaturedTools } from './components/home/FeaturedTools';
 
-// Views
-import { ExploreView } from './components/views/ExploreView';
-import { ColorDetailView } from './components/views/ColorDetailView';
-import { PalettesView } from './components/views/PalettesView';
-import { GradientsView } from './components/views/GradientsView';
-import { FavoritesView } from './components/views/FavoritesView';
-import { LearnView } from './components/views/LearnView';
-import { DeveloperView } from './components/views/DeveloperView';
-import { AboutView } from './components/views/AboutView';
-import { AboutChromaStudioView } from './components/views/AboutChromaStudioView';
-import { LegalCenterView } from './components/views/LegalCenterView';
-import { TermsView } from './components/views/legal/TermsView';
-import { PrivacyView } from './components/views/legal/PrivacyView';
-import { CookiePolicyView } from './components/views/legal/CookiePolicyView';
-import { DisclaimerView } from './components/views/legal/DisclaimerView';
-import { AcceptableUseView } from './components/views/legal/AcceptableUseView';
-import { IntellectualPropertyView } from './components/views/legal/IntellectualPropertyView';
-import { AccessibilityView } from './components/views/legal/AccessibilityView';
-import { LicensesView } from './components/views/legal/LicensesView';
-import { ContactView } from './components/views/legal/ContactView';
+// Views - Lazy loaded
+const ExploreView = lazy(() => import('./components/views/ExploreView').then((m) => ({ default: m.ExploreView })));
+const ColorDetailView = lazy(() => import('./components/views/ColorDetailView').then((m) => ({ default: m.ColorDetailView })));
+const PalettesView = lazy(() => import('./components/views/PalettesView').then((m) => ({ default: m.PalettesView })));
+const GradientsView = lazy(() => import('./components/views/GradientsView').then((m) => ({ default: m.GradientsView })));
+const FavoritesView = lazy(() => import('./components/views/FavoritesView').then((m) => ({ default: m.FavoritesView })));
+const LearnView = lazy(() => import('./components/views/LearnView').then((m) => ({ default: m.LearnView })));
+const DeveloperView = lazy(() => import('./components/views/DeveloperView').then((m) => ({ default: m.DeveloperView })));
+const AboutView = lazy(() => import('./components/views/AboutView').then((m) => ({ default: m.AboutView })));
+const AboutChromaStudioView = lazy(() => import('./components/views/AboutChromaStudioView').then((m) => ({ default: m.AboutChromaStudioView })));
+const LegalCenterView = lazy(() => import('./components/views/LegalCenterView').then((m) => ({ default: m.LegalCenterView })));
+const TermsView = lazy(() => import('./components/views/legal/TermsView').then((m) => ({ default: m.TermsView })));
+const PrivacyView = lazy(() => import('./components/views/legal/PrivacyView').then((m) => ({ default: m.PrivacyView })));
+const CookiePolicyView = lazy(() => import('./components/views/legal/CookiePolicyView').then((m) => ({ default: m.CookiePolicyView })));
+const DisclaimerView = lazy(() => import('./components/views/legal/DisclaimerView').then((m) => ({ default: m.DisclaimerView })));
+const AcceptableUseView = lazy(() => import('./components/views/legal/AcceptableUseView').then((m) => ({ default: m.AcceptableUseView })));
+const IntellectualPropertyView = lazy(() => import('./components/views/legal/IntellectualPropertyView').then((m) => ({ default: m.IntellectualPropertyView })));
+const AccessibilityView = lazy(() => import('./components/views/legal/AccessibilityView').then((m) => ({ default: m.AccessibilityView })));
+const LicensesView = lazy(() => import('./components/views/legal/LicensesView').then((m) => ({ default: m.LicensesView })));
+const ContactView = lazy(() => import('./components/views/legal/ContactView').then((m) => ({ default: m.ContactView })));
 
-// 10 Color Tools
-import { ColorPickerTool } from './components/tools/ColorPickerTool';
-import { ColorConverterTool } from './components/tools/ColorConverterTool';
-import { ImagePickerTool } from './components/tools/ImagePickerTool';
-import { PaletteGeneratorTool } from './components/tools/PaletteGeneratorTool';
-import { ContrastCheckerTool } from './components/tools/ContrastCheckerTool';
-import { GradientGeneratorTool } from './components/tools/GradientGeneratorTool';
-import { ShadesTintsTool } from './components/tools/ShadesTintsTool';
-import { ColorMixerTool } from './components/tools/ColorMixerTool';
-import { BlindnessSimulatorTool } from './components/tools/BlindnessSimulatorTool';
-import { CssExporterTool } from './components/tools/CssExporterTool';
-import { ToolGuideSection } from './components/tools/ToolGuideSection';
+// 10 Color Tools - Lazy loaded
+const ColorPickerTool = lazy(() => import('./components/tools/ColorPickerTool').then((m) => ({ default: m.ColorPickerTool })));
+const ColorConverterTool = lazy(() => import('./components/tools/ColorConverterTool').then((m) => ({ default: m.ColorConverterTool })));
+const ImagePickerTool = lazy(() => import('./components/tools/ImagePickerTool').then((m) => ({ default: m.ImagePickerTool })));
+const PaletteGeneratorTool = lazy(() => import('./components/tools/PaletteGeneratorTool').then((m) => ({ default: m.PaletteGeneratorTool })));
+const ContrastCheckerTool = lazy(() => import('./components/tools/ContrastCheckerTool').then((m) => ({ default: m.ContrastCheckerTool })));
+const GradientGeneratorTool = lazy(() => import('./components/tools/GradientGeneratorTool').then((m) => ({ default: m.GradientGeneratorTool })));
+const ShadesTintsTool = lazy(() => import('./components/tools/ShadesTintsTool').then((m) => ({ default: m.ShadesTintsTool })));
+const ColorMixerTool = lazy(() => import('./components/tools/ColorMixerTool').then((m) => ({ default: m.ColorMixerTool })));
+const BlindnessSimulatorTool = lazy(() => import('./components/tools/BlindnessSimulatorTool').then((m) => ({ default: m.BlindnessSimulatorTool })));
+const CssExporterTool = lazy(() => import('./components/tools/CssExporterTool').then((m) => ({ default: m.CssExporterTool })));
+const ToolGuideSection = lazy(() => import('./components/tools/ToolGuideSection').then((m) => ({ default: m.ToolGuideSection })));
 import { TOOL_GUIDES } from './components/tools/toolGuidesData';
 
 // PWA Components
@@ -439,6 +442,65 @@ export function App() {
     setFavorites(getStoredFavorites());
   }, []);
 
+  const getBreadcrumbItems = (tab: ActiveTab, hex?: string): BreadcrumbItem[] => {
+    const toolNames: Record<string, string> = {
+      'tool-picker': 'Color Picker',
+      'tool-converter': 'Color Converter',
+      'tool-image': 'Image Color Extractor',
+      'tool-palette': 'Palette Generator',
+      'tool-contrast': 'WCAG Contrast Checker',
+      'tool-gradient': 'Gradient Generator',
+      'tool-shades': 'Shades & Tints',
+      'tool-mixer': 'Color Mixer',
+      'tool-blindness': 'Blindness Simulator',
+      'tool-exporter': 'CSS Exporter',
+    };
+
+    const legalNames: Record<string, string> = {
+      terms: 'Terms & Conditions',
+      privacy: 'Privacy Policy',
+      cookies: 'Cookie Policy',
+      disclaimer: 'Technical Disclaimer',
+      'acceptable-use': 'Acceptable Use Policy',
+      'intellectual-property': 'Intellectual Property',
+      accessibility: 'Accessibility Statement',
+      licenses: 'Open Source Licenses',
+      contact: 'Contact & Support',
+    };
+
+    if (tab.startsWith('tool-') && toolNames[tab]) {
+      return [
+        { label: 'Tools', tab: 'tool-picker', href: '/tools/picker' },
+        { label: toolNames[tab] },
+      ];
+    }
+
+    if (legalNames[tab]) {
+      return [
+        { label: 'Legal Center', tab: 'legal', href: '/legal' },
+        { label: legalNames[tab] },
+      ];
+    }
+
+    if (tab === 'legal') return [{ label: 'Legal Center' }];
+    if (tab === 'color-detail') {
+      return [
+        { label: 'Explore Colors', tab: 'explore', href: '/explore' },
+        { label: hex ? hex.toUpperCase() : 'Color Details' },
+      ];
+    }
+    if (tab === 'explore') return [{ label: 'Explore Colors' }];
+    if (tab === 'palettes') return [{ label: 'Curated Palettes' }];
+    if (tab === 'gradients') return [{ label: 'Gradients' }];
+    if (tab === 'learn') return [{ label: 'Color Theory & Guide' }];
+    if (tab === 'developer') return [{ label: 'Developer Code Hub' }];
+    if (tab === 'about') return [{ label: 'About Developer' }];
+    if (tab === 'about-chroma-studio') return [{ label: 'About Chroma Studio' }];
+    if (tab === 'favorites') return [{ label: 'Saved Favorites' }];
+
+    return [];
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-200">
       {/* Navigation Bar */}
@@ -454,213 +516,229 @@ export function App() {
 
       {/* Main View Router */}
       <main className="flex-1">
-        {/* 1. HOMEPAGE */}
-        {activeTab === 'home' && (
-          <>
-            <Hero
+        {/* Semantic Breadcrumbs for deep navigation */}
+        {activeTab !== 'home' && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <Breadcrumb items={getBreadcrumbItems(activeTab, selectedHex)} onNavigate={navigateTo} />
+          </div>
+        )}
+
+        <Suspense
+          fallback={
+            <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
+              <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
+              <span className="text-xs text-slate-500 font-mono">Loading Chroma Studio...</span>
+            </div>
+          }
+        >
+          {/* 1. HOMEPAGE */}
+          {activeTab === 'home' && (
+            <>
+              <Hero
+                onNavigate={navigateTo}
+                onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              />
+              <QuickAccess onNavigate={navigateTo} />
+              <FamilyBrowser
+                onSelectFamily={(fam) => {
+                  setExploreFamily(fam);
+                  navigateTo('explore');
+                }}
+                onNavigate={navigateTo}
+              />
+              <FeaturedPalettes
+                onNavigate={navigateTo}
+                onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+                isFavorited={(id) => isPaletteFavorited(id)}
+                onToggleFavorite={handleTogglePaletteFavorited}
+              />
+              <PopularColors
+                onNavigate={navigateTo}
+                isColorFavorited={isColorFavorited}
+                onToggleFavorite={handleToggleColorFavorited}
+              />
+              <FeaturedTools onNavigate={navigateTo} />
+            </>
+          )}
+
+          {/* 2. EXPLORE VIEW */}
+          {activeTab === 'explore' && (
+            <ExploreView
               onNavigate={navigateTo}
+              isColorFavorited={isColorFavorited}
+              onToggleFavorite={handleToggleColorFavorited}
+              initialFamily={exploreFamily}
+            />
+          )}
+
+          {/* 3. COLOR DETAIL VIEW */}
+          {activeTab === 'color-detail' && (
+            <ColorDetailView
+              hex={selectedHex}
+              onNavigate={navigateTo}
+              isColorFavorited={isColorFavorited}
+              onToggleFavorite={handleToggleColorFavorited}
               onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
             />
-            <QuickAccess onNavigate={navigateTo} />
-            <FamilyBrowser
-              onSelectFamily={(fam) => {
-                setExploreFamily(fam);
-                navigateTo('explore');
-              }}
-              onNavigate={navigateTo}
-            />
-            <FeaturedPalettes
+          )}
+
+          {/* 4. PALETTES VIEW */}
+          {activeTab === 'palettes' && (
+            <PalettesView
               onNavigate={navigateTo}
               onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
               isFavorited={(id) => isPaletteFavorited(id)}
               onToggleFavorite={handleTogglePaletteFavorited}
             />
-            <PopularColors
+          )}
+
+          {/* 5. GRADIENTS VIEW */}
+          {activeTab === 'gradients' && (
+            <GradientsView
               onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              onSaveGradient={handleSaveGradient}
+            />
+          )}
+
+          {/* 6. FAVORITES VIEW */}
+          {activeTab === 'favorites' && (
+            <FavoritesView
+              favorites={favorites}
+              onRemoveFavorite={handleRemoveFavorite}
+              onClearAllFavorites={handleClearAllFavorites}
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              onReloadFavorites={handleReloadFavorites}
+            />
+          )}
+
+          {/* 7. LEARN VIEW */}
+          {activeTab === 'learn' && (
+            <LearnView onNavigate={navigateTo} initialTopic={learnTopic} />
+          )}
+
+          {/* 8. DEVELOPER VIEW */}
+          {activeTab === 'developer' && (
+            <DeveloperView
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+            />
+          )}
+
+          {/* 9. ABOUT DEVELOPER VIEW */}
+          {activeTab === 'about' && <AboutView />}
+
+          {/* 10. ABOUT CHROMA STUDIO VIEW */}
+          {activeTab === 'about-chroma-studio' && (
+            <AboutChromaStudioView onNavigate={navigateTo} />
+          )}
+
+          {/* 10 TOOLS */}
+          {activeTab === 'tool-picker' && (
+            <ColorPickerTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
               isColorFavorited={isColorFavorited}
               onToggleFavorite={handleToggleColorFavorited}
+              initialHex={selectedHex}
             />
-            <FeaturedTools onNavigate={navigateTo} />
-          </>
-        )}
+          )}
 
-        {/* 2. EXPLORE VIEW */}
-        {activeTab === 'explore' && (
-          <ExploreView
-            onNavigate={navigateTo}
-            isColorFavorited={isColorFavorited}
-            onToggleFavorite={handleToggleColorFavorited}
-            initialFamily={exploreFamily}
-          />
-        )}
+          {activeTab === 'tool-converter' && (
+            <ColorConverterTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              initialHex={selectedHex}
+            />
+          )}
 
-        {/* 3. COLOR DETAIL VIEW */}
-        {activeTab === 'color-detail' && (
-          <ColorDetailView
-            hex={selectedHex}
-            onNavigate={navigateTo}
-            isColorFavorited={isColorFavorited}
-            onToggleFavorite={handleToggleColorFavorited}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-          />
-        )}
+          {activeTab === 'tool-image' && (
+            <ImagePickerTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              onToggleFavorite={handleToggleColorFavorited}
+              isColorFavorited={isColorFavorited}
+              onSavePalette={handleSaveCustomPalette}
+            />
+          )}
 
-        {/* 4. PALETTES VIEW */}
-        {activeTab === 'palettes' && (
-          <PalettesView
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            isFavorited={(id) => isPaletteFavorited(id)}
-            onToggleFavorite={handleTogglePaletteFavorited}
-          />
-        )}
+          {activeTab === 'tool-palette' && (
+            <PaletteGeneratorTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              onSavePalette={handleSaveCustomPalette}
+              initialHex={selectedHex}
+            />
+          )}
 
-        {/* 5. GRADIENTS VIEW */}
-        {activeTab === 'gradients' && (
-          <GradientsView
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            onSaveGradient={handleSaveGradient}
-          />
-        )}
+          {activeTab === 'tool-contrast' && (
+            <ContrastCheckerTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              initialFg="#FFFFFF"
+              initialBg={selectedHex}
+            />
+          )}
 
-        {/* 6. FAVORITES VIEW */}
-        {activeTab === 'favorites' && (
-          <FavoritesView
-            favorites={favorites}
-            onRemoveFavorite={handleRemoveFavorite}
-            onClearAllFavorites={handleClearAllFavorites}
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            onReloadFavorites={handleReloadFavorites}
-          />
-        )}
+          {activeTab === 'tool-gradient' && (
+            <GradientGeneratorTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              onSaveGradient={handleSaveGradient}
+            />
+          )}
 
-        {/* 7. LEARN VIEW */}
-        {activeTab === 'learn' && (
-          <LearnView onNavigate={navigateTo} initialTopic={learnTopic} />
-        )}
+          {activeTab === 'tool-shades' && (
+            <ShadesTintsTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              initialHex={selectedHex}
+            />
+          )}
 
-        {/* 8. DEVELOPER VIEW */}
-        {activeTab === 'developer' && (
-          <DeveloperView
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-          />
-        )}
+          {activeTab === 'tool-mixer' && (
+            <ColorMixerTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              initialColor1={selectedHex}
+            />
+          )}
 
-        {/* 9. ABOUT DEVELOPER VIEW */}
-        {activeTab === 'about' && <AboutView />}
+          {activeTab === 'tool-blindness' && (
+            <BlindnessSimulatorTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+              initialHex={selectedHex}
+            />
+          )}
 
-        {/* 10. ABOUT CHROMA STUDIO VIEW */}
-        {activeTab === 'about-chroma-studio' && (
-          <AboutChromaStudioView onNavigate={navigateTo} />
-        )}
+          {activeTab === 'tool-exporter' && (
+            <CssExporterTool
+              onNavigate={navigateTo}
+              onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
+            />
+          )}
 
-        {/* 10 TOOLS */}
-        {activeTab === 'tool-picker' && (
-          <ColorPickerTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            isColorFavorited={isColorFavorited}
-            onToggleFavorite={handleToggleColorFavorited}
-            initialHex={selectedHex}
-          />
-        )}
+          {/* Rich SEO & Educational Guide for the 10 Color Tools */}
+          {activeTab.startsWith('tool-') && TOOL_GUIDES[activeTab] && (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+              <ToolGuideSection {...TOOL_GUIDES[activeTab]} onNavigate={navigateTo} />
+            </div>
+          )}
 
-        {activeTab === 'tool-converter' && (
-          <ColorConverterTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            initialHex={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-image' && (
-          <ImagePickerTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            onToggleFavorite={handleToggleColorFavorited}
-            isColorFavorited={isColorFavorited}
-            onSavePalette={handleSaveCustomPalette}
-          />
-        )}
-
-        {activeTab === 'tool-palette' && (
-          <PaletteGeneratorTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            onSavePalette={handleSaveCustomPalette}
-            initialHex={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-contrast' && (
-          <ContrastCheckerTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            initialFg="#FFFFFF"
-            initialBg={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-gradient' && (
-          <GradientGeneratorTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            onSaveGradient={handleSaveGradient}
-          />
-        )}
-
-        {activeTab === 'tool-shades' && (
-          <ShadesTintsTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            initialHex={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-mixer' && (
-          <ColorMixerTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            initialColor1={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-blindness' && (
-          <BlindnessSimulatorTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-            initialHex={selectedHex}
-          />
-        )}
-
-        {activeTab === 'tool-exporter' && (
-          <CssExporterTool
-            onNavigate={navigateTo}
-            onCopySuccess={(text) => showToast('Copied to clipboard!', text)}
-          />
-        )}
-
-        {/* Rich SEO & Educational Guide for the 10 Color Tools */}
-        {activeTab.startsWith('tool-') && TOOL_GUIDES[activeTab] && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <ToolGuideSection {...TOOL_GUIDES[activeTab]} onNavigate={navigateTo} />
-          </div>
-        )}
-
-        {/* Legal & Information Center Views */}
-        {activeTab === 'legal' && <LegalCenterView onNavigate={navigateTo} />}
-        {activeTab === 'terms' && <TermsView onNavigate={navigateTo} />}
-        {activeTab === 'privacy' && <PrivacyView onNavigate={navigateTo} />}
-        {activeTab === 'cookies' && <CookiePolicyView onNavigate={navigateTo} />}
-        {activeTab === 'disclaimer' && <DisclaimerView onNavigate={navigateTo} />}
-        {activeTab === 'acceptable-use' && <AcceptableUseView onNavigate={navigateTo} />}
-        {activeTab === 'intellectual-property' && <IntellectualPropertyView onNavigate={navigateTo} />}
-        {activeTab === 'accessibility' && <AccessibilityView onNavigate={navigateTo} />}
-        {activeTab === 'licenses' && <LicensesView onNavigate={navigateTo} />}
-        {activeTab === 'contact' && <ContactView onNavigate={navigateTo} />}
+          {/* Legal & Information Center Views */}
+          {activeTab === 'legal' && <LegalCenterView onNavigate={navigateTo} />}
+          {activeTab === 'terms' && <TermsView onNavigate={navigateTo} />}
+          {activeTab === 'privacy' && <PrivacyView onNavigate={navigateTo} />}
+          {activeTab === 'cookies' && <CookiePolicyView onNavigate={navigateTo} />}
+          {activeTab === 'disclaimer' && <DisclaimerView onNavigate={navigateTo} />}
+          {activeTab === 'acceptable-use' && <AcceptableUseView onNavigate={navigateTo} />}
+          {activeTab === 'intellectual-property' && <IntellectualPropertyView onNavigate={navigateTo} />}
+          {activeTab === 'accessibility' && <AccessibilityView onNavigate={navigateTo} />}
+          {activeTab === 'licenses' && <LicensesView onNavigate={navigateTo} />}
+          {activeTab === 'contact' && <ContactView onNavigate={navigateTo} />}
+        </Suspense>
       </main>
 
       {/* Footer with subtle attribution & 10 social links */}
@@ -679,17 +757,25 @@ export function App() {
       <BackToTopButton />
 
       {/* Developer Profile Modal */}
-      <DeveloperModal
-        isOpen={devModalOpen}
-        onClose={() => setDevModalOpen(false)}
-      />
+      <Suspense fallback={null}>
+        {devModalOpen && (
+          <DeveloperModal
+            isOpen={devModalOpen}
+            onClose={() => setDevModalOpen(false)}
+          />
+        )}
+      </Suspense>
 
       {/* Global Quick Search Modal (Ctrl/Cmd + K) */}
-      <QuickSearchModal
-        isOpen={searchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
-        onNavigate={navigateTo}
-      />
+      <Suspense fallback={null}>
+        {searchModalOpen && (
+          <QuickSearchModal
+            isOpen={searchModalOpen}
+            onClose={() => setSearchModalOpen(false)}
+            onNavigate={navigateTo}
+          />
+        )}
+      </Suspense>
 
       {/* PWA Lifecycle & Installation Experience */}
       <InstallModal />
