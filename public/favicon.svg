@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="chroma-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#090A0F" />
+    </linearGradient>
+    <linearGradient id="spectrum" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="35%" stop-color="#A855F7" />
+      <stop offset="70%" stop-color="#EC4899" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded rectangle -->
+  <rect width="512" height="512" rx="128" fill="url(#chroma-bg)" />
+  <rect width="504" height="504" x="4" y="4" rx="124" stroke="rgba(255,255,255,0.12)" stroke-width="8" />
+  
+  <!-- Outer Spectrum Ring -->
+  <circle cx="256" cy="256" r="160" stroke="url(#spectrum)" stroke-width="36" stroke-linecap="round" />
+  
+  <!-- Stylized inner chromatic petals / segments -->
+  <circle cx="256" cy="180" r="44" fill="#6366F1" opacity="0.9" />
+  <circle cx="322" cy="256" r="44" fill="#A855F7" opacity="0.9" />
+  <circle cx="256" cy="332" r="44" fill="#EC4899" opacity="0.9" />
+  <circle cx="190" cy="256" r="44" fill="#06B6D4" opacity="0.9" />
+  
+  <!-- Center Core -->
+  <circle cx="256" cy="256" r="28" fill="#FFFFFF" />
+  <circle cx="256" cy="256" r="16" fill="#090A0F" />
+</svg>

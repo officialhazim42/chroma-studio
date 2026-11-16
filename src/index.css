@@ -1,0 +1,655 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-primary: #090A0F;
+    --bg-secondary: #12131A;
+    --bg-tertiary: #161822;
+
+    --surface-primary: #12131A;
+    --surface-secondary: #161822;
+
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --text-inverse: #0F172A;
+
+    --border-primary: rgba(255, 255, 255, 0.1);
+    --border-secondary: rgba(255, 255, 255, 0.16);
+
+    --accent-primary: #6366F1;
+    --accent-hover: #4F46E5;
+
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+  }
+
+  .light {
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #F1F5F9;
+
+    --surface-primary: #FFFFFF;
+    --surface-secondary: #F8FAFC;
+
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --text-inverse: #FFFFFF;
+
+    --border-primary: #E2E8F0;
+    --border-secondary: #CBD5E1;
+
+    --accent-primary: #4F46E5;
+    --accent-hover: #4338CA;
+
+    --success: #15803D;
+    --warning: #B45309;
+    --danger: #DC2626;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    border: none;
+  }
+
+  /* ========================================================
+     GLOBAL CURSOR & SELECTION SPECIFICATION
+     ======================================================== */
+
+  /* 1. Clickable Elements: Standard Hand Pointer */
+  button:not(:disabled),
+  a[href],
+  summary,
+  select:not(:disabled),
+  label[for],
+  label:has(input),
+  [role="button"]:not([aria-disabled="true"]):not(:disabled),
+  [role="tab"]:not([aria-disabled="true"]),
+  [role="link"],
+  input[type="button"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="reset"]:not(:disabled),
+  input[type="color"]:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled),
+  input[type="range"]:not(:disabled),
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  /* 2. Disabled Interactive Elements: Not Allowed */
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled,
+  [aria-disabled="true"],
+  .cursor-not-allowed {
+    cursor: not-allowed !important;
+  }
+
+  /* 3. Text Inputs & Editable Controls: I-Beam Cursor */
+  input[type="text"],
+  input[type="search"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"],
+  input[type="password"],
+  textarea,
+  [contenteditable="true"],
+  .cursor-text {
+    cursor: text !important;
+  }
+
+  /* 4. Normal Selectable Prose & Typography: I-Beam Cursor */
+  h1:not(button *):not(a *):not([role="button"] *),
+  h2:not(button *):not(a *):not([role="button"] *),
+  h3:not(button *):not(a *):not([role="button"] *),
+  h4:not(button *):not(a *):not([role="button"] *),
+  h5:not(button *):not(a *):not([role="button"] *),
+  h6:not(button *):not(a *):not([role="button"] *),
+  p:not(button *):not(a *):not([role="button"] *),
+  li:not(button *):not(a *):not([role="button"] *),
+  blockquote,
+  figcaption,
+  article,
+  pre,
+  code:not(button *):not(a *):not([role="button"] *),
+  .selectable-text {
+    cursor: text;
+  }
+
+  /* 5. Child contents inside buttons/links inherit hand pointer */
+  button *,
+  a *,
+  [role="button"] * {
+    cursor: inherit;
+  }
+
+  /* 6. Exception: Inputs nested inside buttons retain text cursor */
+  button input[type="text"],
+  button input[type="search"],
+  a input[type="text"] {
+    cursor: text !important;
+  }
+
+  /* 7. Highlight / Text Selection */
+  ::selection {
+    background-color: rgba(99, 102, 241, 0.28);
+    color: inherit;
+  }
+
+  /* 8. Accessible Focus Visible Ring */
+  :focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ========================================================
+   INTERACTIVE TEXT & ACCESSIBILITY STYLING
+   ======================================================== */
+.interactive-text {
+  transition: color 0.15s ease-in-out, opacity 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.interactive-text:hover {
+  color: var(--accent-hover);
+}
+
+.interactive-text:active {
+  color: #4338CA;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* ========================================================
+   LIGHT THEME: DELIBERATE PREMIUM DESIGN SYSTEM
+   ======================================================== */
+.light {
+  color-scheme: light;
+}
+
+/* 1. Header & Navigation */
+.light header {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-bottom: 1px solid var(--border-primary) !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+}
+
+.light header nav button {
+  color: var(--text-secondary);
+}
+
+.light header nav button:hover {
+  color: var(--text-primary) !important;
+  background-color: #F1F5F9 !important;
+}
+
+.light header nav button.bg-white\/10 {
+  background-color: #EEF2FF !important;
+  color: var(--accent-primary) !important;
+  border: 1px solid #C7D2FE !important;
+  font-weight: 700 !important;
+}
+
+/* Mobile Navigation Drawer */
+.light .lg\:hidden.bg-\[\#0E0F16\],
+.light .bg-\[\#0E0F16\] {
+  background-color: #FFFFFF !important;
+  border-color: var(--border-primary) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+}
+
+.light .bg-\[\#0E0F16\] button.bg-white\/5 {
+  background-color: #F8FAFC !important;
+  border: 1px solid var(--border-primary) !important;
+  color: var(--text-secondary) !important;
+}
+
+.light .bg-\[\#0E0F16\] button.bg-white\/5:hover {
+  background-color: #F1F5F9 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Tools Dropdown Popover */
+.light header .absolute.w-80 {
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-primary) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light header .absolute.w-80 button:hover {
+  background-color: #F8FAFC !important;
+}
+
+.light header .absolute.w-80 p.text-white {
+  color: var(--text-primary) !important;
+}
+
+.light header .absolute.w-80 p.text-slate-400 {
+  color: var(--text-muted) !important;
+}
+
+/* 2. Page Backgrounds & Sections */
+.light .bg-\[\#090A0F\],
+.light .bg-\[\#090A0F\]\/85,
+.light .bg-\[\#090A0F\]\/90,
+.light .bg-\[\#07080C\],
+.light .bg-\[\#08090E\],
+.light .bg-\[\#0B0C14\] {
+  background-color: var(--bg-primary) !important;
+}
+
+.light section.bg-gradient-to-b,
+.light [class*="from-\[\#0B0C14\]"] {
+  background-image: linear-gradient(to bottom, #F8FAFC 0%, #FFFFFF 50%, #F8FAFC 100%) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.light footer {
+  background-color: var(--bg-tertiary) !important;
+  border-top: 1px solid var(--border-primary) !important;
+}
+
+/* 3. Primary Cards & Panels */
+.light .bg-\[\#12131A\],
+.light .bg-\[\#12131A\]\/90,
+.light .bg-\[\#0F1017\],
+.light .bg-\[\#151620\],
+.light .bg-\[\#161822\] {
+  background-color: var(--surface-primary) !important;
+  border-color: var(--border-primary) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Secondary Nested Containers */
+.light .bg-\[\#181A24\],
+.light .bg-\[\#1A1C26\],
+.light .bg-\[\#1A1B26\] {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--border-primary) !important;
+}
+
+/* Subtle Cards & Chip Containers */
+.light .bg-white\/\[0\.02\],
+.light .bg-white\/\[0\.03\],
+.light .bg-white\/\[0\.04\],
+.light .bg-white\/5 {
+  background-color: #F8FAFC !important;
+  border-color: var(--border-primary) !important;
+}
+
+.light .hover\:bg-white\/5:hover,
+.light .hover\:bg-white\/\[0\.08\]:hover,
+.light .hover\:bg-white\/10:hover {
+  background-color: #F1F5F9 !important;
+  border-color: var(--border-secondary) !important;
+}
+
+/* 4. Borders & Separators */
+.light .border-white\/5,
+.light .border-white\/10 {
+  border-color: var(--border-primary) !important;
+}
+
+.light .border-white\/15,
+.light .border-white\/20,
+.light .border-white\/25 {
+  border-color: var(--border-secondary) !important;
+}
+
+.light .hover\:border-white\/15:hover,
+.light .hover\:border-white\/20:hover,
+.light .hover\:border-white\/25:hover {
+  border-color: var(--border-secondary) !important;
+}
+
+.light .border-t-white\/5,
+.light .border-t-white\/10,
+.light .border-b-white\/5,
+.light .border-b-white\/10 {
+  border-color: var(--border-primary) !important;
+}
+
+/* 5. Typography Hierarchy */
+.light h1:not([style*="color"]):not([class*="bg-clip-text"]),
+.light h2:not([style*="color"]):not([class*="bg-clip-text"]),
+.light h3:not([style*="color"]):not([class*="bg-clip-text"]),
+.light h4:not([style*="color"]),
+.light h5:not([style*="color"]),
+.light h6:not([style*="color"]) {
+  color: var(--text-primary);
+}
+
+.light .text-slate-100 {
+  color: var(--text-primary);
+}
+
+.light .text-slate-200 {
+  color: #1E293B;
+}
+
+.light .text-slate-300 {
+  color: var(--text-secondary);
+}
+
+.light .text-slate-400 {
+  color: var(--text-muted);
+}
+
+.light .text-neutral-100,
+.light .text-neutral-200,
+.light .text-gray-100,
+.light .text-gray-200 {
+  color: var(--text-primary);
+}
+
+/* Prevent text-white from vanishing on light backgrounds */
+.light .text-white:not([style*="color"]):not(.keep-white) {
+  color: var(--text-primary);
+}
+
+/* Prevent hover:text-white from inverting to white on light buttons */
+.light .hover\:text-white:hover {
+  color: var(--text-primary) !important;
+}
+
+.light .group:hover .group-hover\:text-white {
+  color: var(--text-primary) !important;
+}
+
+.light a.hover\:text-white:hover,
+.light button.hover\:text-white:hover {
+  color: var(--accent-primary) !important;
+}
+
+/* 6. Accent Badges, Pills & Color Vision Deficiencies */
+.light .text-indigo-300,
+.light .text-indigo-400 {
+  color: #4F46E5 !important;
+}
+
+.light .text-emerald-400,
+.light .text-emerald-300 {
+  color: #15803D !important;
+}
+
+.light .text-sky-400,
+.light .text-sky-300,
+.light .text-blue-400 {
+  color: #0369A1 !important;
+}
+
+.light .text-rose-400,
+.light .text-rose-300 {
+  color: #BE123C !important;
+}
+
+.light .text-amber-400,
+.light .text-amber-300 {
+  color: #B45309 !important;
+}
+
+.light .text-teal-400,
+.light .text-teal-300 {
+  color: #0F766E !important;
+}
+
+.light .text-purple-400,
+.light .text-purple-300 {
+  color: #7E22CE !important;
+}
+
+.light .bg-indigo-500\/10,
+.light .bg-indigo-600\/20 {
+  background-color: #EEF2FF !important;
+  border-color: #C7D2FE !important;
+}
+
+.light .bg-emerald-500\/10,
+.light .bg-emerald-500\/20 {
+  background-color: #ECFDF5 !important;
+  border-color: #A7F3D0 !important;
+}
+
+.light .bg-rose-500\/10,
+.light .bg-rose-500\/20 {
+  background-color: #FFF1F2 !important;
+  border-color: #FECDD3 !important;
+}
+
+.light .bg-amber-500\/10,
+.light .bg-amber-500\/20 {
+  background-color: #FFFBEB !important;
+  border-color: #FDE68A !important;
+}
+
+.light .bg-sky-500\/10,
+.light .bg-blue-500\/10 {
+  background-color: #F0F9FF !important;
+  border-color: #BAE6FD !important;
+}
+
+.light .bg-purple-500\/10,
+.light .bg-purple-600\/20 {
+  background-color: #FAF5FF !important;
+  border-color: #E9D5FF !important;
+}
+
+/* 7. Forms, Inputs & Select Controls */
+.light input[type="text"],
+.light input[type="number"],
+.light input[type="search"],
+.light select,
+.light textarea {
+  background-color: #FFFFFF !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-secondary) !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.light input[type="text"]:focus,
+.light input[type="number"]:focus,
+.light input[type="search"]:focus,
+.light select:focus,
+.light textarea:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+  outline: none !important;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+.light select option {
+  background-color: #FFFFFF;
+  color: var(--text-primary);
+}
+
+.light input[type="range"] {
+  accent-color: var(--accent-primary);
+}
+
+/* 8. Action Buttons & Preserved White Text on Dark Elements */
+.light .bg-indigo-600,
+.light .bg-indigo-600 *,
+.light .bg-indigo-500,
+.light .bg-indigo-500 *,
+.light .bg-indigo-700,
+.light .bg-indigo-700 *,
+.light .bg-blue-600,
+.light .bg-blue-600 *,
+.light .bg-purple-600,
+.light .bg-purple-600 *,
+.light .bg-rose-500,
+.light .bg-rose-500 *,
+.light .bg-rose-600,
+.light .bg-rose-600 *,
+.light .bg-emerald-600,
+.light .bg-emerald-600 *,
+.light .bg-slate-900,
+.light .bg-slate-900 *,
+.light .bg-black,
+.light .bg-black *,
+.light .bg-black\/40 *,
+.light .bg-black\/30 *,
+.light .bg-black\/50 * {
+  color: #FFFFFF !important;
+}
+
+.light button.bg-white\/5,
+.light button.bg-white\/10,
+.light button.border-white\/10 {
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-secondary) !important;
+  color: var(--text-secondary) !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+.light button.bg-white\/5:hover,
+.light button.bg-white\/10:hover,
+.light button.border-white\/10:hover {
+  background-color: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
+  color: var(--text-primary) !important;
+}
+
+/* 9. Dark Gradients to Light Gradients on Specific Cards */
+.light [class*="from-indigo-950"],
+.light [class*="from-purple-950"] {
+  background-image: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 50%, #FAF5FF 100%) !important;
+  border-color: #C7D2FE !important;
+}
+
+/* 10. Modals & Dialogs */
+.light .fixed.inset-0[class*="bg-black\/"] {
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.light #dev-modal-title,
+.light #dev-modal-title ~ * {
+  color: var(--text-primary);
+}
+
+.light .fixed.inset-0 .bg-\[\#0F1017\],
+.light .fixed.inset-0 .bg-\[\#12131A\] {
+  background-color: #FFFFFF !important;
+  border-color: var(--border-primary) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* 11. Code & Terminal Blocks */
+.light pre {
+  background-color: #0F172A !important;
+  color: #E2E8F0 !important;
+  border: 1px solid #1E293B !important;
+}
+
+.light pre code {
+  color: #E2E8F0 !important;
+  background-color: transparent !important;
+}
+
+/* 12. Floating Developer Button */
+.light .fixed.bottom-5.left-5 button {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: var(--border-secondary) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+.light .fixed.bottom-5.left-5 button span.text-slate-300 {
+  color: var(--text-secondary) !important;
+}
+
+.light .fixed.bottom-5.left-5 button span.text-indigo-400 {
+  color: var(--accent-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* 13. Learn View Prose Styling */
+.light .prose-invert {
+  color: var(--text-secondary) !important;
+}
+
+.light .prose-invert h2,
+.light .prose-invert h3,
+.light .prose-invert strong {
+  color: var(--text-primary) !important;
+}
+
+/* Custom modern scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.45);
+}
+
+/* Color checkered pattern for transparent swatches */
+.checkered-bg {
+  background-image: linear-gradient(45deg, #808080 25%, transparent 25%),
+    linear-gradient(-45deg, #808080 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #808080 75%),
+    linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+/* Subtle glow animations */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s infinite ease-in-out;
+}

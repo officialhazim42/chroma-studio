@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('chroma_theme_preference');
+          var isDark = t === 'dark' || (!t) || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Metadata -->
+    <title>Chroma Studio — Color Intelligence &amp; Design Toolkit</title>
+    <meta name="title" content="Chroma Studio — Color Intelligence &amp; Design Toolkit" />
+    <meta
+      name="description"
+      content="Every Color. Every Code. One Creative Workspace. Explore millions of colors, convert color formats, generate harmonious palettes, verify WCAG contrast, and extract colors from images locally."
+    />
+    <meta name="author" content="Hazim Bashir Faqeer (@officialhazim42)" />
+    <meta name="keywords" content="color picker, color converter, color palette generator, wcag contrast checker, color science, hex to rgb, image color picker, pwa, chroma studio, Hazim Bashir" />
+    <meta name="theme-color" content="#090A0F" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- PWA Web App Manifest -->
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chroma-studio.pages.dev/" />
+    <meta property="og:title" content="Chroma Studio — Color Intelligence &amp; Design Toolkit" />
+    <meta
+      property="og:description"
+      content="Every Color. Every Code. One Creative Workspace. Zero backend, 100% browser-based color utility platform designed by Hazim Bashir."
+    />
+    <meta property="og:image" content="./favicon.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:creator" content="@officialhazim42" />
+    <meta property="twitter:title" content="Chroma Studio — Color Intelligence &amp; Design Toolkit" />
+    <meta
+      property="twitter:description"
+      content="Every Color. Every Code. One Creative Workspace. Explore, convert, build palettes, and verify accessibility directly in your browser."
+    />
+    <meta property="twitter:image" content="./favicon.svg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://chroma-studio.pages.dev/" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+
+    <!-- Register PWA Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('./sw.js')
+            .then((reg) => {
+              console.log('[Chroma Studio] Service Worker active, offline capability ready.', reg.scope);
+            })
+            .catch((err) => {
+              console.warn('[Chroma Studio] Service Worker registration skipped:', err);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
