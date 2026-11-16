@@ -154,9 +154,8 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
                 onChange={(e) => handleColor1Change(e.target.value)}
                 placeholder="#3B82F6"
                 aria-label="Color A HEX code"
-                className={`flex-1 min-w-0 bg-[#181A24] border ${
-                  color1Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
-                } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
+                className={`flex-1 min-w-0 bg-[#181A24] border ${color1Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+                  } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
               />
             </div>
             {color1Error && (
@@ -189,9 +188,8 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
                 onChange={(e) => handleColor2Change(e.target.value)}
                 placeholder="#EC4899"
                 aria-label="Color B HEX code"
-                className={`flex-1 min-w-0 bg-[#181A24] border ${
-                  color2Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
-                } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
+                className={`flex-1 min-w-0 bg-[#181A24] border ${color2Error ? 'border-rose-500 ring-1 ring-rose-500/50' : 'border-white/10'
+                  } rounded-xl px-2.5 sm:px-3 py-2 font-mono text-sm font-bold text-white focus:outline-none focus:border-orange-500`}
               />
             </div>
             {color2Error && (
@@ -207,21 +205,19 @@ export const ColorMixerTool: React.FC<ColorMixerToolProps> = ({
             <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => setMixMode('rgb')}
-                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all ${
-                  mixMode === 'rgb'
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all ${mixMode === 'rgb'
                     ? 'bg-orange-500 text-slate-950 shadow-md'
                     : 'bg-white/5 hover:bg-white/10 text-slate-400 border border-white/5'
-                }`}
+                  }`}
               >
                 RGB Linear Space
               </button>
               <button
                 onClick={() => setMixMode('hsl')}
-                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all ${
-                  mixMode === 'hsl'
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all ${mixMode === 'hsl'
                     ? 'bg-orange-500 text-slate-950 shadow-md'
                     : 'bg-white/5 hover:bg-white/10 text-slate-400 border border-white/5'
-                }`}
+                  }`}
               >
                 HSL Polar Space
               </button>
