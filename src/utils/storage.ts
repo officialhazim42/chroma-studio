@@ -1,4 +1,5 @@
 import { ColorData, Palette, Gradient, SavedItem } from '../types/color';
+import { isValidHexColor, normalizeHex } from './colorEngine';
 
 const STORAGE_KEYS = {
   THEME: 'chroma_theme_preference',
@@ -44,8 +45,12 @@ export function getStoredFavorites(): SavedItem[] {
 export function saveFavorites(items: SavedItem[]): void {
   try {
     localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(items));
-  } catch (e) {
-    console.error('LocalStorage error saving favorites:', e);
+  } catch (e: any) {
+    if (e.name === 'QuotaExceededError') {
+      console.warn('LocalStorage quota exceeded. Unable to save additional favorites.');
+    } else {
+      console.error('LocalStorage error saving favorites:', e);
+    }
   }
 }
 
@@ -131,26 +136,82 @@ export function exportFavoritesJson(): string {
 export function importFavoritesJson(jsonStr: string): { success: boolean; count: number; error?: string } {
   try {
     const parsed = JSON.parse(jsonStr);
-    const items = parsed.favorites || parsed;
-    if (!Array.isArray(items)) {
+    const rawItems = parsed.favorites || parsed;
+    if (!Array.isArray(rawItems)) {
       return { success: false, count: 0, error: 'Invalid JSON format: missing array of favorites.' };
     }
+
+    // Limit batch import to 100 items to prevent local storage quota exhaustion
+    const items = rawItems.slice(0, 100);
 
     const current = getStoredFavorites();
     const existingIds = new Set(current.map((i) => i.id));
     const toAdd: SavedItem[] = [];
 
     for (const item of items) {
-      if (item && item.type && item.name && item.data) {
-        if (!existingIds.has(item.id)) {
-          toAdd.push({
-            id: item.id || `imp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            type: item.type,
-            name: item.name,
-            data: item.data,
-            createdAt: item.createdAt || Date.now(),
-          });
+      if (!item || typeof item !== 'object') continue;
+
+      // Validate allowed types
+      if (item.type !== 'color' && item.type !== 'palette' && item.type !== 'gradient') {
+        continue;
+      }
+
+      // Validate and sanitize name
+      const name = typeof item.name === 'string' ? item.name.slice(0, 100).trim() : 'Saved Item';
+
+      // Validate and sanitize ID
+      const safeId =
+        typeof item.id === 'string'
+          ? item.id.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64)
+          : `imp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+
+      if (existingIds.has(safeId)) continue;
+
+      // Validate schema based on type
+      if (item.type === 'color') {
+        if (!item.data || typeof item.data.hex !== 'string' || !isValidHexColor(item.data.hex)) {
+          continue;
         }
+        toAdd.push({
+          id: safeId,
+          type: 'color',
+          name,
+          data: {
+            ...item.data,
+            hex: normalizeHex(item.data.hex),
+          },
+          createdAt: typeof item.createdAt === 'number' ? item.createdAt : Date.now(),
+        });
+      } else if (item.type === 'palette') {
+        if (!item.data || !Array.isArray(item.data.colors) || item.data.colors.length === 0) {
+          continue;
+        }
+        const validColors = item.data.colors.filter(
+          (c: any) => typeof c === 'string' && isValidHexColor(c)
+        );
+        if (validColors.length === 0) continue;
+
+        toAdd.push({
+          id: safeId,
+          type: 'palette',
+          name,
+          data: {
+            ...item.data,
+            colors: validColors.map((c: string) => normalizeHex(c)),
+          },
+          createdAt: typeof item.createdAt === 'number' ? item.createdAt : Date.now(),
+        });
+      } else if (item.type === 'gradient') {
+        if (!item.data || (!Array.isArray(item.data.stops) && typeof item.data.css !== 'string')) {
+          continue;
+        }
+        toAdd.push({
+          id: safeId,
+          type: 'gradient',
+          name,
+          data: item.data,
+          createdAt: typeof item.createdAt === 'number' ? item.createdAt : Date.now(),
+        });
       }
     }
 

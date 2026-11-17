@@ -125,6 +125,8 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search colors, HEX, RGB, tools, guides... (e.g. #3B82F6, Emerald, Contrast)"
+            aria-label="Search colors, tools, and guides"
+            maxLength={100}
             className="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 text-sm sm:text-base focus:outline-none"
           />
           {query && (

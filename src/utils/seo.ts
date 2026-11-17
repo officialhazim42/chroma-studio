@@ -1,4 +1,5 @@
 import { ActiveTab } from '../types/color';
+import { isValidHexColor, normalizeHex } from './colorEngine';
 
 export interface RouteMeta {
   title: string;
@@ -174,10 +175,10 @@ export function updateRouteSEO(tab: ActiveTab, param?: string): void {
   let canonicalUrl = meta.canonicalPath ? `${BASE_URL}/${meta.canonicalPath}` : `${BASE_URL}/`;
 
   if (tab === 'color-detail' && param) {
-    const hex = param.startsWith('#') ? param : `#${param}`;
-    title = `${hex} Color Information, Conversions & Harmonies | Chroma Studio`;
-    description = `Detailed color analysis for ${hex}: RGB, HSL, HSV, CMYK conversions, shades, tints, triadic harmonies, and WCAG contrast ratios.`;
-    canonicalUrl = `${BASE_URL}/color/${hex.replace('#', '')}`;
+    const cleanHex = isValidHexColor(param) ? normalizeHex(param) : '#6366F1';
+    title = `${cleanHex} Color Information, Conversions & Harmonies | Chroma Studio`;
+    description = `Detailed color analysis for ${cleanHex}: RGB, HSL, HSV, CMYK conversions, shades, tints, triadic harmonies, and WCAG contrast ratios.`;
+    canonicalUrl = `${BASE_URL}/color/${cleanHex.replace('#', '')}`;
   }
 
   // 1. Update Document Title

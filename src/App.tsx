@@ -77,7 +77,7 @@ import {
   isColorFavorited,
   isPaletteFavorited,
 } from './utils/storage';
-import { getColorData } from './utils/colorEngine';
+import { getColorData, isValidHexColor, normalizeHex } from './utils/colorEngine';
 import { updateRouteSEO } from './utils/seo';
 
 export function App() {
@@ -119,7 +119,8 @@ export function App() {
       const param = parts[1];
 
       if (section === 'color' && param) {
-        setSelectedHex(param.startsWith('#') ? param : `#${param}`);
+        const safeHex = isValidHexColor(param) ? normalizeHex(param) : '#6366F1';
+        setSelectedHex(safeHex);
         setActiveTab('color-detail');
       } else if (section === 'explore') {
         setActiveTab('explore');

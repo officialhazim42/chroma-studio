@@ -17,6 +17,7 @@ import { findNearestColorName } from './colorDataset';
  * Normalizes any hex string into standard 6-character hex with '#'
  */
 export function normalizeHex(hex: string): string {
+  if (!hex || typeof hex !== 'string') return '#000000';
   let clean = hex.replace(/[^0-9a-fA-F]/g, '').trim();
   if (clean.length === 3) {
     clean = clean
@@ -32,6 +33,7 @@ export function normalizeHex(hex: string): string {
 }
 
 export function isValidHex(hex: string): boolean {
+  if (!hex || typeof hex !== 'string') return false;
   return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(hex.trim());
 }
 
@@ -41,13 +43,14 @@ export function isValidHex(hex: string): boolean {
  * Rejects: #ZZZ, #12G, #12345, empty strings
  */
 export function isValidHexColor(hex: string): boolean {
-  if (!hex) return false;
+  if (!hex || typeof hex !== 'string') return false;
   return /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex.trim());
 }
 
 export const HEX_VALIDATION_ERROR = 'Enter a valid HEX color.';
 
 export function hexToRgb(hex: string): RGB {
+  if (!hex || typeof hex !== 'string') return { r: 0, g: 0, b: 0 };
   let clean = hex.replace('#', '').trim();
   if (clean.length === 3) {
     clean = clean
@@ -60,9 +63,9 @@ export function hexToRgb(hex: string): RGB {
     return { r: 0, g: 0, b: 0 };
   }
   return {
-    r: (num >> 16) & 255,
-    g: (num >> 8) & 255,
-    b: num & 255,
+    r: Math.min(255, Math.max(0, (num >> 16) & 255)),
+    g: Math.min(255, Math.max(0, (num >> 8) & 255)),
+    b: Math.min(255, Math.max(0, num & 255)),
   };
 }
 

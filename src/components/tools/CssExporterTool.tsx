@@ -62,20 +62,46 @@ export const CssExporterTool: React.FC<CssExporterToolProps> = ({
     );
   };
 
-  // Generate code according to selected format
+  /**
+   * Sanitizes token key names to safe alphanumeric identifiers.
+   * Prevents CSS/SCSS/Tailwind/HTML/XML code and markup injection.
+   */
+  const sanitizeTokenKey = (rawKey: string, index: number): string => {
+    const cleaned = (rawKey || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64);
+    return cleaned || `color-${index + 1}`;
+  };
+
+  /**
+   * Strictly enforces normalized valid 6-char HEX color (#RRGGBB).
+   * Prevents syntax breakouts into generated code.
+   */
+  const sanitizeHexValue = (rawHex: string): string => {
+    if (isValidHexColor(rawHex)) {
+      return normalizeHex(rawHex);
+    }
+    return '#000000';
+  };
+
+  // Generate code according to selected format with strict sanitization
   let generatedCode = '';
+
+  // Prepare sanitized list for code generation
+  const safeTokens = paletteColors.map((c, i) => ({
+    key: sanitizeTokenKey(c.key, i),
+    hex: sanitizeHexValue(c.hex),
+  }));
 
   switch (format) {
     case 'css':
       generatedCode = `/* CSS Custom Properties (Variables) */
 :root {
-${paletteColors.map((c) => `  --color-${c.key}: ${c.hex};`).join('\n')}
+${safeTokens.map((c) => `  --color-${c.key}: ${c.hex};`).join('\n')}
 }`;
       break;
 
     case 'scss':
       generatedCode = `// SCSS Variables
-${paletteColors.map((c) => `$color-${c.key}: ${c.hex};`).join('\n')}`;
+${safeTokens.map((c) => `$color-${c.key}: ${c.hex};`).join('\n')}`;
       break;
 
     case 'tailwind':
@@ -84,7 +110,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-${paletteColors.map((c) => `        '${c.key}': '${c.hex}',`).join('\n')}
+${safeTokens.map((c) => `        '${c.key}': '${c.hex}',`).join('\n')}
       },
     },
   },
@@ -93,7 +119,7 @@ ${paletteColors.map((c) => `        '${c.key}': '${c.hex}',`).join('\n')}
 
     case 'json':
       const jsonObj: { [k: string]: string } = {};
-      paletteColors.forEach((c) => {
+      safeTokens.forEach((c) => {
         jsonObj[c.key] = c.hex;
       });
       generatedCode = JSON.stringify({ colors: jsonObj }, null, 2);
@@ -101,10 +127,10 @@ ${paletteColors.map((c) => `        '${c.key}': '${c.hex}',`).join('\n')}
 
     case 'html':
       generatedCode = `<!-- HTML Color Declarations -->
-<meta name="theme-color" content="${paletteColors[0]?.hex || '#6366F1'}" />
+<meta name="theme-color" content="${safeTokens[0]?.hex || '#6366F1'}" />
 
 <style>
-${paletteColors.map((c) => `  .bg-${c.key} { background-color: ${c.hex}; }
+${safeTokens.map((c) => `  .bg-${c.key} { background-color: ${c.hex}; }
   .text-${c.key} { color: ${c.hex}; }`).join('\n')}
 </style>`;
       break;
@@ -113,7 +139,7 @@ ${paletteColors.map((c) => `  .bg-${c.key} { background-color: ${c.hex}; }
       generatedCode = `<?xml version="1.0" encoding="utf-8"?>
 <!-- Android Resource: res/values/colors.xml -->
 <resources>
-${paletteColors
+${safeTokens
   .map((c) => {
     const cleanHex = c.hex.replace('#', '');
     return `    <color name="${c.key}">#FF${cleanHex}</color>`;

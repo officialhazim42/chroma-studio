@@ -240,7 +240,14 @@ export const ImagePickerTool: React.FC<ImagePickerToolProps> = ({
       return;
     }
 
-    setImageFileName(file.name);
+    // Sanitize file name: remove path traversal, special characters, and clamp length
+    const cleanFileName =
+      file.name
+        .replace(/[^a-zA-Z0-9._-]/g, '_')
+        .replace(/\.{2,}/g, '.')
+        .slice(0, 100) || 'uploaded-image.png';
+
+    setImageFileName(cleanFileName);
     setFileSizeBytes(file.size);
     setIsProcessing(true);
 
@@ -818,8 +825,11 @@ export const ImagePickerTool: React.FC<ImagePickerToolProps> = ({
       640
     );
 
+    const safeBaseName =
+      imageFileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50) || 'palette';
+
     const link = document.createElement('a');
-    link.download = `chroma-palette-${imageFileName.replace(/\.[^/.]+$/, '')}.png`;
+    link.download = `chroma-palette-${safeBaseName}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
     onCopySuccess('Exported high-resolution PNG palette card!');
@@ -827,6 +837,9 @@ export const ImagePickerTool: React.FC<ImagePickerToolProps> = ({
 
   // 2. Export JSON
   const downloadPaletteJson = () => {
+    const safeBaseName =
+      imageFileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50) || 'palette';
+
     const data = {
       paletteName: `Extracted from ${imageFileName}`,
       sourceFile: imageFileName,
@@ -844,7 +857,7 @@ export const ImagePickerTool: React.FC<ImagePickerToolProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `chroma-palette-${imageFileName.replace(/\.[^/.]+$/, '')}.json`;
+    a.download = `chroma-palette-${safeBaseName}.json`;
     a.click();
     URL.revokeObjectURL(url);
     onCopySuccess('Downloaded palette JSON!');
@@ -852,25 +865,29 @@ export const ImagePickerTool: React.FC<ImagePickerToolProps> = ({
 
   // 3. Export CSS Variables
   const copyCssVariables = () => {
+    const safeFileComment = imageFileName.replace(/[*/\\]/g, '_').slice(0, 80);
     const lines = extractedColors
       .map(
         (c, i) =>
           `  --color-extracted-${i + 1}: ${c.hex}; /* ${c.percentage}% - ${getColorData(c.hex).name} */`
       )
       .join('\n');
-    const css = `/* Generated from ${imageFileName} with Chroma Studio */\n:root {\n${lines}\n}`;
+    const css = `/* Generated from ${safeFileComment} with Chroma Studio */\n:root {\n${lines}\n}`;
     navigator.clipboard.writeText(css);
     onCopySuccess('Copied CSS Variables to clipboard!');
   };
 
   // 4. Export HEX Plain Text File
   const downloadHexTextFile = () => {
+    const safeBaseName =
+      imageFileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50) || 'palette';
+
     const text = extractedColors.map((c) => c.hex).join('\n');
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `chroma-colors-${imageFileName.replace(/\.[^/.]+$/, '')}.txt`;
+    a.download = `chroma-colors-${safeBaseName}.txt`;
     a.click();
     URL.revokeObjectURL(url);
     onCopySuccess('Downloaded HEX text file!');
