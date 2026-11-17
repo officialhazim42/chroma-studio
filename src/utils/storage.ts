@@ -120,7 +120,7 @@ export function exportFavoritesJson(): string {
     {
       version: '1.0',
       exportedAt: new Date().toISOString(),
-      generator: 'Chroma Studio (chroma-studio.local)',
+      generator: 'Chroma Studio (https://chroma-studio.surge.sh/)',
       favorites,
     },
     null,

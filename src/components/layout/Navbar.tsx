@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#090A0F]/85 backdrop-blur-xl transition-colors">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1.5 sm:gap-4">
         {/* Brand Logo */}
-        <div className="flex items-center gap-2 sm:gap-6 shrink-0">
+        <div className="flex items-center gap-2 lg:gap-3 xl:gap-6 shrink-0">
           <a
             href="/"
             onClick={(e) => {
@@ -109,14 +109,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             <a
               href="/explore"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick('explore');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+              className={`px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'explore'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => setToolsDropdownOpen(!toolsDropdownOpen)}
                 onMouseEnter={() => setToolsDropdownOpen(true)}
-                className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+                className={`flex items-center gap-1 px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                   isToolActive
                     ? 'bg-indigo-50 dark:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30'
                     : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -183,7 +183,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 handleNavClick('palettes');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+              className={`px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'palettes'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -198,7 +198,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 handleNavClick('gradients');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+              className={`px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'gradients'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -213,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 handleNavClick('learn');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+              className={`px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'learn'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -228,7 +228,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 e.preventDefault();
                 handleNavClick('developer');
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
+              className={`px-2 xl:px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition-colors cursor-pointer ${
                 activeTab === 'developer'
                   ? 'bg-slate-100 dark:bg-white/10 text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 active:text-indigo-700 dark:active:text-indigo-300 hover:bg-slate-100 dark:hover:bg-white/5'
@@ -241,11 +241,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Action Icons: Search, Favorites, Theme, Profile */}
         <div className="flex items-center gap-1 sm:gap-2">
-          {/* Install App Button (Desktop) */}
+          {/* Install App Button (Desktop XL) */}
           {!isInstalled && (
             <button
               onClick={() => setInstallModalOpen(true)}
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold transition-all cursor-pointer group"
+              className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-500/10 dark:hover:bg-indigo-500/20 border border-indigo-200 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs font-semibold transition-all cursor-pointer group"
               aria-label="Install Chroma Studio App"
               title="Install Chroma Studio as a standalone app"
             >
@@ -257,12 +257,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Quick Search Button */}
           <button
             onClick={onOpenSearch}
-            className="flex items-center gap-1.5 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs transition-all cursor-pointer group"
+            className="flex items-center gap-1.5 p-1.5 sm:p-2 xl:px-3 xl:py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs transition-all cursor-pointer group"
             aria-label="Quick Search"
           >
             <Search className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
-            <span className="hidden sm:inline text-slate-600 dark:text-slate-400 font-sans">Quick search...</span>
-            <span className="hidden md:inline font-mono text-[10px] bg-slate-200 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">
+            <span className="hidden xl:inline text-slate-600 dark:text-slate-400 font-sans">Quick search...</span>
+            <span className="hidden xl:inline font-mono text-[10px] bg-slate-200 dark:bg-white/10 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">
               ⌘K
             </span>
           </button>

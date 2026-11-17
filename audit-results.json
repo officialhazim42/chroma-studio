@@ -1,0 +1,502 @@
+{
+  "totalTests": 49,
+  "passed": 49,
+  "failed": 0,
+  "blocked": 0,
+  "categories": {
+    "Functional - Color Picker": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3
+    },
+    "Functional - Color Converter": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    },
+    "Functional - Contrast Checker": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    },
+    "Functional - Palette Generator": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    },
+    "Functional - Gradient Generator": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Functional - Shades & Tints": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Functional - Color Mixer": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Functional - Blindness Simulator": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Functional - CSS Exporter": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "General Functionality - Search": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3
+    },
+    "General Functionality - Theme": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "General Functionality - Favorites": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "UI/UX & Responsive": {
+      "passed": 13,
+      "failed": 0,
+      "total": 13
+    },
+    "Accessibility": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3
+    },
+    "SEO & Metadata": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3
+    },
+    "PWA & Offline": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    },
+    "Downloads & Exports": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Routing & SPA Fallback": {
+      "passed": 5,
+      "failed": 0,
+      "total": 5
+    },
+    "Reliability & Stability": {
+      "passed": 1,
+      "failed": 0,
+      "total": 1
+    },
+    "Browser Compatibility": {
+      "passed": 2,
+      "failed": 0,
+      "total": 2
+    }
+  },
+  "details": [
+    {
+      "category": "Functional - Color Picker",
+      "name": "Route #/tool-picker renders and title is updated",
+      "passed": true,
+      "expected": "Title contains \"Color Picker\"",
+      "actual": "Color Picker - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Color Picker",
+      "name": "Valid HEX input is accepted and reflected",
+      "passed": true,
+      "expected": "#10B981",
+      "actual": "#10B981",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Color Picker",
+      "name": "Invalid HEX input shows exact error message",
+      "passed": true,
+      "expected": "Enter a valid HEX color.",
+      "actual": "Enter a valid HEX color.",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Color Converter",
+      "name": "Converts #FF0000 to rgb(255, 0, 0) accurately",
+      "passed": true,
+      "expected": "rgb(255, 0, 0)",
+      "actual": "rgb(255, 0, 0)",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Color Converter",
+      "name": "Converts #FF0000 to hsl(0, 100%, 50%) accurately",
+      "passed": true,
+      "expected": "hsl(0, 100%, 50%)",
+      "actual": "hsl(0, 100%, 50%)",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Contrast Checker",
+      "name": "Pure Black on Pure White calculates exact 21.00:1 ratio and passes AAA",
+      "passed": true,
+      "expected": "21.00:1 and AAA",
+      "actual": "Ratio count: 1, AAA count: 1",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Contrast Checker",
+      "name": "Swap button inverts foreground and background colors",
+      "passed": true,
+      "expected": "FG=#FFFFFF, BG=#000000",
+      "actual": "FG=#FFFFFF, BG=#000000",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Palette Generator",
+      "name": "Palette size selector changes number of swatches to 6",
+      "passed": true,
+      "expected": "6 or more slots rendered",
+      "actual": "Found 12 slots",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Palette Generator",
+      "name": "Lock toggle switches slot state to locked",
+      "passed": true,
+      "expected": "Unlock color title present",
+      "actual": "Locked buttons: 1",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Gradient Generator",
+      "name": "Radial type selection updates generated CSS code",
+      "passed": true,
+      "expected": "Contains \"radial-gradient\"",
+      "actual": "background: radial-gradient(circle at center, #38BDF8 0%, #1E1B4B 60%, #030712 100%);",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Shades & Tints",
+      "name": "Generates tints, shades, and tone swatches",
+      "passed": true,
+      "expected": "> 10 swatches",
+      "actual": "33 swatches rendered",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Color Mixer",
+      "name": "Blends two colors and renders 11-step transition spectrum",
+      "passed": true,
+      "expected": ">= 11 mixed steps",
+      "actual": "12 steps rendered",
+      "notes": ""
+    },
+    {
+      "category": "Functional - Blindness Simulator",
+      "name": "Renders all 4 CVD condition simulations (Protan, Deutan, Tritan, Achromatopsia)",
+      "passed": true,
+      "expected": "All 4 condition cards present",
+      "actual": "P:1, D:1, T:1, A:1",
+      "notes": ""
+    },
+    {
+      "category": "Functional - CSS Exporter",
+      "name": "Add Token button creates new token row",
+      "passed": true,
+      "expected": ">= 6 token inputs",
+      "actual": "6 token inputs",
+      "notes": ""
+    },
+    {
+      "category": "General Functionality - Search",
+      "name": "Ctrl+K opens Quick Search modal dialog",
+      "passed": true,
+      "expected": "Search modal open",
+      "actual": "Open",
+      "notes": ""
+    },
+    {
+      "category": "General Functionality - Search",
+      "name": "Querying \"Emerald\" returns matched colors and tools",
+      "passed": true,
+      "expected": "Results found for Emerald",
+      "actual": "Found 1 matches",
+      "notes": ""
+    },
+    {
+      "category": "General Functionality - Search",
+      "name": "Escape key dismisses search modal",
+      "passed": true,
+      "expected": "Modal closed",
+      "actual": "Closed",
+      "notes": ""
+    },
+    {
+      "category": "General Functionality - Theme",
+      "name": "Clicking theme button toggles root dark/light class",
+      "passed": true,
+      "expected": "Dark mode state changes",
+      "actual": "Before: true, After: false",
+      "notes": ""
+    },
+    {
+      "category": "General Functionality - Favorites",
+      "name": "Favoriting an item stores it in LocalStorage chroma_saved_favorites_v1",
+      "passed": true,
+      "expected": "favorites count > 0",
+      "actual": "Stored count: 1",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 320x568 (iPhone SE) (320x568) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 360x800 (Android Standard) (360x800) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 375x812 (iPhone 13 Mini) (375x812) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 390x844 (iPhone 14/15) (390x844) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 414x896 (iPhone XR/11) (414x896) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Mobile 430x932 (iPhone 15 Pro Max) (430x932) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Tablet 768x1024 (iPad Portrait) (768x1024) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Tablet 820x1180 (iPad Air) (820x1180) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Tablet 1024x768 (iPad Landscape) (1024x768) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Desktop 1280x720 (HD) (1280x720) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Desktop 1366x768 (Laptop) (1366x768) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Desktop 1440x900 (MacBook Pro 15) (1440x900) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "UI/UX & Responsive",
+      "name": "No horizontal overflow on Desktop 1920x1080 (Full HD) (1920x1080) across all tested routes",
+      "passed": true,
+      "expected": "0px horizontal overflow",
+      "actual": "0px overflow",
+      "notes": ""
+    },
+    {
+      "category": "Accessibility",
+      "name": "Breadcrumb navigation uses semantic <nav aria-label=\"Breadcrumb\"> and aria-current=\"page\"",
+      "passed": true,
+      "expected": "nav[aria-label=\"Breadcrumb\"] with aria-current=\"page\"",
+      "actual": "Breadcrumb: 1, Current: 1",
+      "notes": ""
+    },
+    {
+      "category": "Accessibility",
+      "name": "All primary interactive elements have accessible names/labels",
+      "passed": true,
+      "expected": "> 20 accessible elements",
+      "actual": "53 elements verified",
+      "notes": ""
+    },
+    {
+      "category": "Accessibility",
+      "name": "Page has exactly one primary <h1> heading for screen readers",
+      "passed": true,
+      "expected": "1 h1 element",
+      "actual": "1 h1 elements",
+      "notes": ""
+    },
+    {
+      "category": "SEO & Metadata",
+      "name": "Canonical URL correctly points to preferred production domain https://chroma-studio.surge.sh/",
+      "passed": true,
+      "expected": "https://chroma-studio.surge.sh/",
+      "actual": "https://chroma-studio.surge.sh/",
+      "notes": ""
+    },
+    {
+      "category": "SEO & Metadata",
+      "name": "Open Graph image tag has 1200x630 dimensions on absolute surge domain",
+      "passed": true,
+      "expected": "https://chroma-studio.surge.sh/og-image.png (1200x630)",
+      "actual": "https://chroma-studio.surge.sh/og-image.png (1200x630)",
+      "notes": ""
+    },
+    {
+      "category": "SEO & Metadata",
+      "name": "JSON-LD Structured Data parses valid Schema.org graph for WebSite, Organization, and WebApplication",
+      "passed": true,
+      "expected": "Valid Schema.org graph",
+      "actual": "Valid",
+      "notes": ""
+    },
+    {
+      "category": "PWA & Offline",
+      "name": "Manifest link exists in index.html",
+      "passed": true,
+      "expected": "/manifest.webmanifest",
+      "actual": "/manifest.webmanifest",
+      "notes": ""
+    },
+    {
+      "category": "PWA & Offline",
+      "name": "Application loads and renders tools completely while offline",
+      "passed": true,
+      "expected": "Title loads while offline",
+      "actual": "Color Picker - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Downloads & Exports",
+      "name": "CSS Exporter triggers file download with valid filename",
+      "passed": true,
+      "expected": "Filename starts with chroma-colors",
+      "actual": "chroma-colors.css",
+      "notes": ""
+    },
+    {
+      "category": "Routing & SPA Fallback",
+      "name": "Direct access to clean URL path /explore resolves via 200.html SPA fallback",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Explore Colors - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Routing & SPA Fallback",
+      "name": "Direct access to clean URL path /palettes resolves via 200.html SPA fallback",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Curated Palettes - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Routing & SPA Fallback",
+      "name": "Direct access to clean URL path /gradients resolves via 200.html SPA fallback",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Gradient Library - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Routing & SPA Fallback",
+      "name": "Direct access to clean URL path /terms resolves via 200.html SPA fallback",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Terms & Conditions - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Routing & SPA Fallback",
+      "name": "Direct access to clean URL path /tools/picker resolves via 200.html SPA fallback",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Color Picker - Chroma Studio",
+      "notes": ""
+    },
+    {
+      "category": "Reliability & Stability",
+      "name": "Zero uncaught JavaScript exceptions or runtime console errors during full testing session",
+      "passed": true,
+      "expected": "0 console errors",
+      "actual": "0 console errors: ",
+      "notes": ""
+    },
+    {
+      "category": "Browser Compatibility",
+      "name": "Microsoft Edge renders homepage and loads CSS/JS bundles with zero errors",
+      "passed": true,
+      "expected": "Title contains \"Chroma Studio\"",
+      "actual": "Chroma Studio - Color Intelligence Suite & Palette Workspace",
+      "notes": ""
+    },
+    {
+      "category": "Browser Compatibility",
+      "name": "Microsoft Edge executes color science math and renders WCAG Contrast Checker",
+      "passed": true,
+      "expected": "Contrast Checker renders",
+      "actual": "WCAG Contrast Checker",
+      "notes": ""
+    }
+  ]
+}
