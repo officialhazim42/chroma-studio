@@ -123,8 +123,8 @@ async function runComprehensiveAudit() {
     console.log('\n--- SECTION 1: Functional Testing of 10 Color Tools ---');
 
     // 1.1 Color Picker Tool
-    await page.goto(`http://localhost:${PORT}/#/tool-picker`, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(400);
+    await page.goto(`http://localhost:${PORT}/#/tool-picker`, { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('h1:has-text("Color Picker")', { timeout: 8000 });
     const pickerTitle = await page.title();
     recordTest(
       'Functional - Color Picker',
@@ -584,6 +584,28 @@ async function runComprehensiveAudit() {
       `${ogImage} (${ogImageWidth}x${ogImageHeight})`
     );
 
+    // Facebook App ID verification
+    const fbAppId = await page.$eval('meta[property="fb:app_id"]', (el) => el.getAttribute('content'));
+    recordTest(
+      'SEO & Metadata',
+      'Facebook App ID metadata is present and matches 1010345392089286',
+      fbAppId === '1010345392089286',
+      '1010345392089286',
+      fbAppId
+    );
+
+    // Open Graph Title & Description verification
+    const ogTitle = await page.$eval('meta[property="og:title"]', (el) => el.getAttribute('content'));
+    const ogDesc = await page.$eval('meta[property="og:description"]', (el) => el.getAttribute('content'));
+    recordTest(
+      'SEO & Metadata',
+      'Open Graph title and description match official specification',
+      ogTitle.includes('Chroma Studio – Free Online Color Tools & Palette Generator') &&
+      ogDesc.includes('Explore, create and convert colors with Chroma Studio'),
+      'Official Title & Description',
+      `${ogTitle} | ${ogDesc.substring(0, 50)}...`
+    );
+
     // JSON-LD structured data verification
     const jsonLdCount = await page.locator('script[type="application/ld+json"]').count();
     let jsonLdValid = false;
@@ -703,7 +725,8 @@ async function runComprehensiveAudit() {
   try {
     const edgeBrowser = await chromium.launch({ channel: 'msedge', headless: true });
     const edgePage = await edgeBrowser.newPage({ viewport: { width: 1280, height: 800 } });
-    await edgePage.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle' });
+    await edgePage.goto(`http://localhost:${PORT}/`, { waitUntil: 'domcontentloaded' });
+    await edgePage.waitForFunction(() => document.title.length > 0, { timeout: 5000 });
     const edgeTitle = await edgePage.title();
     recordTest(
       'Browser Compatibility',
@@ -714,7 +737,7 @@ async function runComprehensiveAudit() {
     );
 
     await edgePage.goto(`http://localhost:${PORT}/#/tool-contrast`, { waitUntil: 'domcontentloaded' });
-    await edgePage.waitForTimeout(400);
+    await edgePage.waitForSelector('h1:has-text("Contrast Checker")', { timeout: 8000 });
     const edgeContrastTitle = await edgePage.locator('h1').textContent();
     recordTest(
       'Browser Compatibility',

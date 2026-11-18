@@ -1,6 +1,6 @@
 {
-  "totalTests": 49,
-  "passed": 49,
+  "totalTests": 51,
+  "passed": 51,
   "failed": 0,
   "blocked": 0,
   "categories": {
@@ -75,9 +75,9 @@
       "total": 3
     },
     "SEO & Metadata": {
-      "passed": 3,
+      "passed": 5,
       "failed": 0,
-      "total": 3
+      "total": 5
     },
     "PWA & Offline": {
       "passed": 2,
@@ -400,6 +400,22 @@
       "passed": true,
       "expected": "https://chroma-studio.surge.sh/og-image.png (1200x630)",
       "actual": "https://chroma-studio.surge.sh/og-image.png (1200x630)",
+      "notes": ""
+    },
+    {
+      "category": "SEO & Metadata",
+      "name": "Facebook App ID metadata is present and matches 1010345392089286",
+      "passed": true,
+      "expected": "1010345392089286",
+      "actual": "1010345392089286",
+      "notes": ""
+    },
+    {
+      "category": "SEO & Metadata",
+      "name": "Open Graph title and description match official specification",
+      "passed": true,
+      "expected": "Official Title & Description",
+      "actual": "Chroma Studio – Free Online Color Tools & Palette Generator | Explore, create and convert colors with Chroma Stu...",
       "notes": ""
     },
     {

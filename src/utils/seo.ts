@@ -9,8 +9,8 @@ export interface RouteMeta {
 
 export const ROUTE_SEO: Record<ActiveTab, RouteMeta> = {
   home: {
-    title: 'Chroma Studio — Free Online Color Tools, Palette Generator & HEX Converter',
-    description: 'Free online color tools for designers and developers. Generate harmonic color palettes, convert HEX, RGB, HSL, CMYK, test WCAG contrast, extract colors from images, and simulate color blindness 100% locally in your browser.',
+    title: 'Chroma Studio – Free Online Color Tools & Palette Generator',
+    description: 'Explore, create and convert colors with Chroma Studio. Generate beautiful color palettes, gradients, shades and tints, extract colors from images, and use professional color tools for free.',
     canonicalPath: '',
   },
   'tool-picker': {
@@ -206,10 +206,10 @@ export function updateRouteSEO(tab: ActiveTab, param?: string): void {
   let ogUrl = document.querySelector('meta[property="og:url"]');
   if (ogUrl) ogUrl.setAttribute('content', canonicalUrl);
 
-  // 5. Update Twitter Tags
-  let twTitle = document.querySelector('meta[property="twitter:title"]');
+  // 5. Update Twitter Tags (both name and property attributes for broad compatibility)
+  let twTitle = document.querySelector('meta[name="twitter:title"]') || document.querySelector('meta[property="twitter:title"]');
   if (twTitle) twTitle.setAttribute('content', title);
 
-  let twDesc = document.querySelector('meta[property="twitter:description"]');
+  let twDesc = document.querySelector('meta[name="twitter:description"]') || document.querySelector('meta[property="twitter:description"]');
   if (twDesc) twDesc.setAttribute('content', description);
 }
